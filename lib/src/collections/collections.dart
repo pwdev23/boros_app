@@ -12,3 +12,25 @@ class Expense {
   String? notes;
   DateTime? createdAt;
 }
+
+@collection
+class Installment {
+  Id id = Isar.autoIncrement;
+
+  String? title;
+  double? monthlyPayment;
+  String? notes;
+  DateTime? dueDate;
+}
+
+@collection
+class Debt {
+  Id id = Isar.autoIncrement;
+
+  String? title;
+  double? amount;
+  double? interestRate;
+  double? minimumPayment;
+  String? notes;
+  DateTime? dueDate;
+}
