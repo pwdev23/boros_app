@@ -6,9 +6,25 @@ Monthly expense companion to track, budget, and reset.
 
 ## Getting started with Isar Database
 
-This app is utilizing the Isar Database, here is the resource to learn about it:
+This app is utilizing the Isar Database, here is the resource to get started with it:
 
 - [Isar Database: Super fast cross-platform database for Flutter](https://isar.dev/)
+
+## Recommended VS Code workspace settings
+
+Use the following code in your `.vscode/settings.json` file. If the file doesn't exist, you can create it in the root directory of your project.
+
+```json
+{
+    "material-icon-theme.folders.associations": {
+        "collections": "database",
+    },
+    "files.exclude": {
+        "**/*.freezed.dart": true,
+        "**/*.g.dart": true
+    }
+}
+```
 
 ## Getting started with Flutter
 
