@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckStatesPage extends StatefulWidget {
   static const routeName = '/';
@@ -15,8 +16,13 @@ class _CheckStatesPageState extends State<CheckStatesPage> {
     super.initState();
 
     final nav = Navigator.of(context);
-    _checkState()
-        .then((_) => nav.pushNamedAndRemoveUntil('/home', (route) => false));
+    _checkState().then((value) {
+      if (value) {
+        nav.pushNamedAndRemoveUntil('/home', (route) => false);
+      } else {
+        nav.pushNamedAndRemoveUntil('/currency', (route) => false);
+      }
+    });
   }
 
   @override
@@ -28,8 +34,13 @@ class _CheckStatesPageState extends State<CheckStatesPage> {
     );
   }
 
-  Future<void> _checkState() async {
-    await Future.delayed(const Duration(seconds: 3));
-    // TODO: check a few states
+  Future<bool> _checkState() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString('currencyCode') == null) {
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
   }
 }

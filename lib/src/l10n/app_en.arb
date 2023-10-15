@@ -2,5 +2,9 @@
     "wasteful": "Wasteful",
     "@wasteful": {
         "description": "A title of the Boros app"
+    },
+    "setCurrency": "Set currency",
+    "@setCurrency": {
+        "description": "A title for currency page"
     }
 }

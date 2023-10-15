@@ -8,6 +8,8 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const CheckStatesPage());
     case '/home':
       return MaterialPageRoute(builder: (_) => const HomePage());
+    case '/currency':
+      return MaterialPageRoute(builder: (_) => const CurrencyPage());
     default:
       return MaterialPageRoute(
         builder: (_) => Scaffold(
