@@ -7,7 +7,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case '/':
       return MaterialPageRoute(builder: (_) => const CheckStatesPage());
     case '/home':
-      return MaterialPageRoute(builder: (_) => const HomePage());
+      final args = settings.arguments as HomeArgs;
+      return MaterialPageRoute(
+          builder: (_) => HomePage(currencyCode: args.currencyCode));
     case '/currency':
       return MaterialPageRoute(builder: (_) => const CurrencyPage());
     default:
