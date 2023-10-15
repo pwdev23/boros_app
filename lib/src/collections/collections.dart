@@ -34,3 +34,14 @@ class Debt {
   String? notes;
   DateTime? dueDate;
 }
+
+@collection
+class Income {
+  Id id = Isar.autoIncrement;
+
+  String? title;
+  double? amount;
+  String? source;
+  DateTime? createdAt;
+  String? notes;
+}
