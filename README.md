@@ -4,6 +4,12 @@
 
 Monthly expense companion to track, budget, and reset.
 
+## Getting started with Isar Database
+
+This app is utilizing the Isar Database, here is the resource to learn about it:
+
+- [Isar Database: Super fast cross-platform database for Flutter](https://isar.dev/)
+
 ## Getting started with Flutter
 
 A few resources to get started with Flutter project:
