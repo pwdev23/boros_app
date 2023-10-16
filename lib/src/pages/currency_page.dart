@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../common.dart';
 import '../currency_code.dart';
 import 'home_page.dart' show HomeArgs;
@@ -35,8 +37,8 @@ class _CurrencyPageState extends State<CurrencyPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () =>
-            nav.pushReplacementNamed('/home', arguments: HomeArgs(_code)),
+        onPressed: () => _setCurrencyCode(_code).then((_) =>
+            nav.pushReplacementNamed('/home', arguments: HomeArgs(_code))),
         label: const Text('Next'),
       ),
     );
@@ -47,26 +49,31 @@ class _CurrencyPageState extends State<CurrencyPage> {
 
     showModalBottomSheet(
       context: context,
-      builder: (context) => SingleChildScrollView(
-        child: Column(
-          children: List.generate(
-            kCurrencyCode.length,
-            (index) => ListTile(
-              onTap: () {
-                setState(() {
-                  _code = '${kCurrencyCode[index]['code']}';
-                  _name = '${kCurrencyCode[index]['name']}';
-                });
+      builder: (context) => ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) => ListTile(
+          onTap: () {
+            setState(() {
+              _code = '${kCurrencyCode[index]['code']}';
+              _name = '${kCurrencyCode[index]['name']}';
+            });
 
-                nav.pop();
-              },
-              title: Text('${kCurrencyCode[index]['code']}'),
-              subtitle: Text('${kCurrencyCode[index]['name']}'),
-            ),
-          ),
+            nav.pop();
+          },
+          title: Text('${kCurrencyCode[index]['code']}'),
+          subtitle: Text('${kCurrencyCode[index]['name']}'),
         ),
+        separatorBuilder: (context, index) => const Divider(height: 0.0),
+        itemCount: kCurrencyCode.length,
       ),
     );
+  }
+
+  Future<void> _setCurrencyCode(String code) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('currencyCode', code);
   }
 }
 
@@ -110,10 +117,7 @@ class _CurrencyButton extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Icon(
-              Icons.expand_more,
-              color: colorScheme.outline,
-            )
+            Icon(Icons.expand_more, color: colorScheme.outline)
           ],
         ),
       ),
