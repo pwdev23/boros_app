@@ -36,10 +36,10 @@ class _CurrencyPageState extends State<CurrencyPage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: () => _setCurrencyCode(_code).then((_) =>
             nav.pushReplacementNamed('/home', arguments: HomeArgs(_code))),
-        label: const Text('Next'),
+        child: const Icon(Icons.done),
       ),
     );
   }
