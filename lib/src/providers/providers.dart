@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../collections/collections.dart';
-import '../utils.dart';
+import '../isar_services.dart';
 
 part 'providers.g.dart';
 

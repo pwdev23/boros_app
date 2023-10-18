@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../collections/collections.dart' show Income;
 import '../providers/providers.dart' show incomesProvider;
-import '../utils.dart';
+import '../isar_services.dart' show addIncome;
 
 class AddIncomePage extends ConsumerStatefulWidget {
   static const routeName = '/add-income';
