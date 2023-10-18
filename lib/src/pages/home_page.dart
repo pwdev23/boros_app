@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import 'add_income_page.dart' show AddIncomeArgs;
+
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
 
@@ -49,7 +51,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _onIncome() {}
+  void _onIncome() {
+    final nav = Navigator.of(context);
+    final args = AddIncomeArgs(widget.currencyCode);
+
+    nav.pushNamed('/add-income', arguments: args);
+  }
 }
 
 class HomeArgs {

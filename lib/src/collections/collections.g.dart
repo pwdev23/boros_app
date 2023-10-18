@@ -3113,13 +3113,8 @@ const IncomeSchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'notes': PropertySchema(
-      id: 2,
-      name: r'notes',
-      type: IsarType.string,
-    ),
     r'title': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'title',
       type: IsarType.string,
     )
@@ -3145,12 +3140,6 @@ int _incomeEstimateSize(
 ) {
   var bytesCount = offsets.last;
   {
-    final value = object.notes;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.title;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -3167,8 +3156,7 @@ void _incomeSerialize(
 ) {
   writer.writeDouble(offsets[0], object.amount);
   writer.writeDateTime(offsets[1], object.createdAt);
-  writer.writeString(offsets[2], object.notes);
-  writer.writeString(offsets[3], object.title);
+  writer.writeString(offsets[2], object.title);
 }
 
 Income _incomeDeserialize(
@@ -3181,8 +3169,7 @@ Income _incomeDeserialize(
   object.amount = reader.readDoubleOrNull(offsets[0]);
   object.createdAt = reader.readDateTimeOrNull(offsets[1]);
   object.id = id;
-  object.notes = reader.readStringOrNull(offsets[2]);
-  object.title = reader.readStringOrNull(offsets[3]);
+  object.title = reader.readStringOrNull(offsets[2]);
   return object;
 }
 
@@ -3198,8 +3185,6 @@ P _incomeDeserializeProp<P>(
     case 1:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
-    case 3:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -3493,152 +3478,6 @@ extension IncomeQueryFilter on QueryBuilder<Income, Income, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'notes',
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'notes',
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'notes',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'notes',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'notes',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'notes',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterFilterCondition> notesIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'notes',
-        value: '',
-      ));
-    });
-  }
-
   QueryBuilder<Income, Income, QAfterFilterCondition> titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -3815,18 +3654,6 @@ extension IncomeQuerySortBy on QueryBuilder<Income, Income, QSortBy> {
     });
   }
 
-  QueryBuilder<Income, Income, QAfterSortBy> sortByNotes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'notes', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterSortBy> sortByNotesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'notes', Sort.desc);
-    });
-  }
-
   QueryBuilder<Income, Income, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -3877,18 +3704,6 @@ extension IncomeQuerySortThenBy on QueryBuilder<Income, Income, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Income, Income, QAfterSortBy> thenByNotes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'notes', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Income, Income, QAfterSortBy> thenByNotesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'notes', Sort.desc);
-    });
-  }
-
   QueryBuilder<Income, Income, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -3912,13 +3727,6 @@ extension IncomeQueryWhereDistinct on QueryBuilder<Income, Income, QDistinct> {
   QueryBuilder<Income, Income, QDistinct> distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
-    });
-  }
-
-  QueryBuilder<Income, Income, QDistinct> distinctByNotes(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'notes', caseSensitive: caseSensitive);
     });
   }
 
@@ -3946,12 +3754,6 @@ extension IncomeQueryProperty on QueryBuilder<Income, Income, QQueryProperty> {
   QueryBuilder<Income, DateTime?, QQueryOperations> createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
-    });
-  }
-
-  QueryBuilder<Income, String?, QQueryOperations> notesProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'notes');
     });
   }
 

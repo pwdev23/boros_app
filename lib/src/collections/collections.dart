@@ -42,5 +42,4 @@ class Income {
   String? title;
   double? amount;
   DateTime? createdAt;
-  String? notes;
 }
