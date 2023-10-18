@@ -1,8 +1,8 @@
-import 'package:boros_app/src/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../collections/collections.dart' show Income;
+import '../providers/providers.dart' show incomesProvider;
 import '../utils.dart';
 
 class AddIncomePage extends ConsumerStatefulWidget {
