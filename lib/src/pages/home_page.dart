@@ -2,7 +2,9 @@ import 'package:boros_app/src/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
 
+import '../utils.dart' show findLang;
 import 'add_income_page.dart' show AddIncomeArgs;
 
 class HomePage extends ConsumerStatefulWidget {
@@ -17,7 +19,14 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  late String _lang;
   final _speedDials = ['Installment', 'Income', 'Expense', 'Debt'];
+
+  @override
+  void initState() {
+    super.initState();
+    _lang = findLang(widget.currencyCode);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +44,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
           return ListView.separated(
             itemBuilder: (context, index) => ListTile(
-              title: Text('${data[index].amount}'),
+              title: Text(NumberFormat.simpleCurrency(locale: _lang)
+                  .format(data[index].amount)),
               subtitle: Text(data[index].title!),
             ),
             separatorBuilder: (_, __) => const Divider(height: 0.0),
