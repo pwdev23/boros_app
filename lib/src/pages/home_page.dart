@@ -1,9 +1,11 @@
+import 'package:boros_app/src/providers/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'add_income_page.dart' show AddIncomeArgs;
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   static const routeName = '/home';
 
   const HomePage({super.key, required this.currencyCode});
@@ -11,17 +13,37 @@ class HomePage extends StatefulWidget {
   final String currencyCode;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   final _speedDials = ['Installment', 'Income', 'Expense', 'Debt'];
 
   @override
   Widget build(BuildContext context) {
+    final incomes = ref.watch(incomesProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.currencyCode),
+      ),
+      body: incomes.when(
+        data: (data) {
+          if (data.isEmpty) {
+            return const Center(child: Text('Income is empty'));
+          }
+
+          return ListView.separated(
+            itemBuilder: (context, index) => ListTile(
+              title: Text('${data[index].amount}'),
+              subtitle: Text(data[index].title!),
+            ),
+            separatorBuilder: (_, __) => const Divider(height: 0.0),
+            itemCount: data.length,
+          );
+        },
+        error: (_, __) => const Center(child: Text('Failed to load')),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
       floatingActionButton: SpeedDial(
         icon: Icons.add,

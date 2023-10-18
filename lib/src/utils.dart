@@ -81,10 +81,12 @@ Future<IsarCollection<Income>> getIncomes() async =>
 Future<Isar> openIsarInstance() async {
   final dir = await getApplicationCacheDirectory();
 
-  final isar = await Isar.open(
-    [ExpenseSchema, InstallmentSchema, DebtSchema, IncomeSchema],
-    directory: dir.path,
-  );
+  if (Isar.instanceNames.isEmpty) {
+    return await Isar.open(
+      [ExpenseSchema, InstallmentSchema, DebtSchema, IncomeSchema],
+      directory: dir.path,
+    );
+  }
 
-  return isar;
+  return Future.value(Isar.getInstance());
 }

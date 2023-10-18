@@ -1,9 +1,11 @@
+import 'package:boros_app/src/providers/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../collections/collections.dart' show Income;
-import '../utils.dart' show addIncome;
+import '../utils.dart';
 
-class AddIncomePage extends StatefulWidget {
+class AddIncomePage extends ConsumerStatefulWidget {
   static const routeName = '/add-income';
 
   const AddIncomePage({super.key, required this.currencyCode});
@@ -11,10 +13,10 @@ class AddIncomePage extends StatefulWidget {
   final String currencyCode;
 
   @override
-  State<AddIncomePage> createState() => _AddIncomePageState();
+  ConsumerState<AddIncomePage> createState() => _AddIncomePageState();
 }
 
-class _AddIncomePageState extends State<AddIncomePage> {
+class _AddIncomePageState extends ConsumerState<AddIncomePage> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   final _titleController = TextEditingController();
@@ -43,6 +45,9 @@ class _AddIncomePageState extends State<AddIncomePage> {
                         counterText: '', hintText: '99999'),
                     maxLength: 16,
                     keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      setState(() {});
+                    },
                   ),
                 ),
                 const SizedBox(height: 8.0),
@@ -54,6 +59,9 @@ class _AddIncomePageState extends State<AddIncomePage> {
                         counterText: '', hintText: hintText),
                     maxLength: 16,
                     keyboardType: TextInputType.name,
+                    onChanged: (value) {
+                      setState(() {});
+                    },
                   ),
                 ),
                 const SizedBox(height: 16.0),
@@ -73,6 +81,7 @@ class _AddIncomePageState extends State<AddIncomePage> {
   }
 
   void _onAddIncome() async {
+    final nav = Navigator.of(context);
     final now = DateTime.now();
 
     var income = Income()
@@ -80,7 +89,9 @@ class _AddIncomePageState extends State<AddIncomePage> {
       ..title = _titleController.text
       ..createdAt = now;
 
-    await addIncome(income: income);
+    await addIncome(income: income)
+        .then((_) => ref.invalidate(incomesProvider))
+        .then((_) => nav.pop());
   }
 }
 
