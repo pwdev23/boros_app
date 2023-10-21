@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../providers/providers.dart';
 import '../utils.dart';
-import 'add_income_page.dart' show AddIncomeArgs;
+import 'pages.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   static const routeName = '/home';
@@ -34,25 +34,39 @@ class _HomePageState extends ConsumerState<HomePage> {
     final currency = NumberFormat.currency(locale: _lang, symbol: '');
     var incomes = ref.watch(incomesProvider);
     final textTheme = Theme.of(context).textTheme;
+    final nav = Navigator.of(context);
 
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
         children: [
+          Text(
+            'Budget',
+            style: textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
           incomes.when(
             data: (data) {
               if (data.isEmpty) {
-                return Text.rich(
-                  TextSpan(
-                    text: findSign(widget.currencyCode),
-                    children: [
-                      TextSpan(
-                        text: '0,00',
-                        style: textTheme.displaySmall,
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton(
+                      onPressed: null,
+                      child: Text.rich(
+                        TextSpan(
+                          text: findSign(widget.currencyCode),
+                          style: textTheme.bodySmall,
+                          children: [
+                            TextSpan(
+                              text: '0,00',
+                              style: textTheme.titleLarge,
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
+                    ),
+                  ],
                 );
               }
 
@@ -60,17 +74,27 @@ class _HomePageState extends ConsumerState<HomePage> {
                   .map((e) => e.amount)
                   .reduce((value, element) => value! + element!);
 
-              return Text.rich(
-                TextSpan(
-                  text: findSign(widget.currencyCode),
-                  children: [
-                    TextSpan(
-                      text: currency.format(sum),
-                      style: textTheme.displaySmall,
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton(
+                    onPressed: () => nav.pushNamed('/incomes',
+                        arguments:
+                            IncomesArgs(currencyCode: widget.currencyCode)),
+                    child: Text.rich(
+                      TextSpan(
+                        text: findSign(widget.currencyCode),
+                        style: textTheme.bodySmall,
+                        children: [
+                          TextSpan(
+                            text: currency.format(sum),
+                            style: textTheme.titleLarge,
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
+                  ),
+                ],
               );
             },
             error: (_, __) => const Text('Failed to load'),
