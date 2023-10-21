@@ -6,7 +6,7 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$incomesHash() => r'30ce3c4e3efd01203a88462782a8d75eff4115ac';
+String _$incomesHash() => r'34919f984759b5806f86378db677f73f8daf6d30';
 
 /// See also [incomes].
 @ProviderFor(incomes)
@@ -20,7 +20,7 @@ final incomesProvider = AutoDisposeFutureProvider<List<Income>>.internal(
 );
 
 typedef IncomesRef = AutoDisposeFutureProviderRef<List<Income>>;
-String _$expensesHash() => r'61e2b3892e39b6cf70af53a0e044d90037353376';
+String _$expensesHash() => r'3ba9ba0579fdf1a03fe7678566b39af39f332346';
 
 /// See also [expenses].
 @ProviderFor(expenses)
@@ -34,7 +34,7 @@ final expensesProvider = AutoDisposeFutureProvider<List<Expense>>.internal(
 );
 
 typedef ExpensesRef = AutoDisposeFutureProviderRef<List<Expense>>;
-String _$installmentsHash() => r'd192644c32d606028e3826b9f482ec83f42ea0b9';
+String _$installmentsHash() => r'e50dfda6b3482c9a2184f2077326b4ebf7e72aa3';
 
 /// See also [installments].
 @ProviderFor(installments)
@@ -49,7 +49,7 @@ final installmentsProvider =
 );
 
 typedef InstallmentsRef = AutoDisposeFutureProviderRef<List<Installment>>;
-String _$debtsHash() => r'8ad4236490cc19c2d114c309d7ab1550439e6cf7';
+String _$debtsHash() => r'593e22827945a0a56c67207397ce12b5f26c37ed';
 
 /// See also [debts].
 @ProviderFor(debts)

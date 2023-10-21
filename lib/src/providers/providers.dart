@@ -9,27 +9,23 @@ part 'providers.g.dart';
 @riverpod
 Future<List<Income>> incomes(IncomesRef ref) async {
   final incomesCollection = await getIncomes();
-  final incomes = await incomesCollection.where().findAll();
-  return incomes;
+  return incomesCollection.where().findAll();
 }
 
 @riverpod
 Future<List<Expense>> expenses(ExpensesRef ref) async {
   final expensesCollection = await getExpenses();
-  final expenses = await expensesCollection.where().findAll();
-  return expenses;
+  return expensesCollection.where().findAll();
 }
 
 @riverpod
 Future<List<Installment>> installments(InstallmentsRef ref) async {
   final installmentsCollection = await getInstallments();
-  final installments = await installmentsCollection.where().findAll();
-  return installments;
+  return installmentsCollection.where().findAll();
 }
 
 @riverpod
 Future<List<Debt>> debts(DebtsRef ref) async {
   final debtsCollection = await getDebts();
-  final debts = await debtsCollection.where().findAll();
-  return debts;
+  return debtsCollection.where().findAll();
 }

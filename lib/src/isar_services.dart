@@ -4,16 +4,12 @@ import 'collections/collections.dart';
 
 Future<void> addExpense({required Expense expense}) async =>
     await openIsarInstance().then((isar) {
-      isar.writeTxn(() async {
-        await isar.expenses.put(expense);
-      });
+      isar.writeTxn(() => isar.expenses.put(expense));
     });
 
 Future<void> addInstallment({required Installment installment}) async =>
     await openIsarInstance().then((isar) {
-      isar.writeTxn(() async {
-        await isar.installments.put(installment);
-      });
+      isar.writeTxn(() => isar.installments.put(installment));
     });
 
 Future<void> addDebt({required Debt debt}) async =>
@@ -25,37 +21,27 @@ Future<void> addDebt({required Debt debt}) async =>
 
 Future<void> addIncome({required Income income}) async =>
     await openIsarInstance().then((isar) {
-      isar.writeTxn(() async {
-        await isar.incomes.put(income);
-      });
+      isar.writeTxn(() => isar.incomes.put(income));
     });
 
 Future<void> deleteExpenses({required List<Id> ids}) async =>
     await openIsarInstance().then((isar) {
-      isar.writeTxn(() async {
-        await isar.expenses.deleteAll(ids);
-      });
+      isar.writeTxn(() => isar.expenses.deleteAll(ids));
     });
 
 Future<void> deleteInstallments({required List<Id> ids}) async =>
     await openIsarInstance().then((isar) {
-      isar.writeTxn(() async {
-        await isar.installments.deleteAll(ids);
-      });
+      isar.writeTxn(() => isar.installments.deleteAll(ids));
     });
 
 Future<void> deleteDebts({required List<Id> ids}) async =>
     await openIsarInstance().then((isar) {
-      isar.writeTxn(() async {
-        await isar.debts.deleteAll(ids);
-      });
+      isar.writeTxn(() => isar.debts.deleteAll(ids));
     });
 
 Future<void> deleteIncomes({required List<Id> ids}) async =>
     await openIsarInstance().then((isar) {
-      isar.writeTxn(() async {
-        await isar.incomes.deleteAll(ids);
-      });
+      isar.writeTxn(() => isar.incomes.deleteAll(ids));
     });
 
 Future<IsarCollection<Expense>> getExpenses() async =>
