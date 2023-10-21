@@ -32,39 +32,33 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final currency = NumberFormat.currency(locale: _lang, symbol: '');
+    final compact = NumberFormat.compactCurrency(locale: _lang, symbol: '');
     var incomes = ref.watch(incomesProvider);
     final textTheme = Theme.of(context).textTheme;
     final nav = Navigator.of(context);
+    final dividerColor = Theme.of(context).dividerColor;
 
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
         children: [
-          Text(
-            'Budget',
-            style: textTheme.titleMedium,
-            textAlign: TextAlign.center,
-          ),
           incomes.when(
             data: (data) {
+              final code = widget.currencyCode;
+              final incomesArgs = IncomesArgs(currencyCode: code);
+              final addIncomeArgs = AddIncomeArgs(code);
+
               if (data.isEmpty) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    OutlinedButton(
-                      onPressed: null,
-                      child: Text.rich(
-                        TextSpan(
-                          text: findSign(widget.currencyCode),
-                          style: textTheme.bodySmall,
-                          children: [
-                            TextSpan(
-                              text: '0,00',
-                              style: textTheme.titleLarge,
-                            ),
-                          ],
-                        ),
+                    OutlinedButton.icon(
+                      onPressed: () => nav.pushNamed(
+                        '/add-income',
+                        arguments: addIncomeArgs,
                       ),
+                      icon: const Icon(Icons.add),
+                      label: const Text('Add income'),
                     ),
                   ],
                 );
@@ -74,27 +68,34 @@ class _HomePageState extends ConsumerState<HomePage> {
                   .map((e) => e.amount)
                   .reduce((value, element) => value! + element!);
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OutlinedButton(
-                    onPressed: () => nav.pushNamed('/incomes',
-                        arguments:
-                            IncomesArgs(currencyCode: widget.currencyCode)),
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(16.0),
+                  onTap: () =>
+                      nav.pushNamed('/incomes', arguments: incomesArgs),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: Text.rich(
                       TextSpan(
-                        text: findSign(widget.currencyCode),
-                        style: textTheme.bodySmall,
+                        text: findSign(code),
+                        style: textTheme.titleMedium,
                         children: [
                           TextSpan(
-                            text: currency.format(sum),
-                            style: textTheme.titleLarge,
+                            text: '${compact.format(sum)}\n',
+                            style: textTheme.displayMedium,
+                          ),
+                          TextSpan(
+                            text: '${findSign(code)}${currency.format(sum)}',
+                            style: textTheme.bodySmall!
+                                .copyWith(color: dividerColor),
                           ),
                         ],
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                ],
+                ),
               );
             },
             error: (_, __) => const Text('Failed to load'),

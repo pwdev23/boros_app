@@ -70,12 +70,16 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
                 ListView.separated(
                   itemBuilder: (context, index) => ListTile(
                     onTap: () {
+                      if (_loading) return;
+
                       if (_ids.isEmpty) return;
 
                       _ids.remove(data[index].id);
                       setState(() {});
                     },
                     onLongPress: () {
+                      if (_loading) return;
+
                       _ids.add(data[index].id);
                       setState(() {});
                     },
