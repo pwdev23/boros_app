@@ -73,14 +73,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                   .map((e) => e.amount)
                   .reduce((value, element) => value! + element!);
 
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(16.0),
-                  onTap: () =>
-                      nav.pushNamed('/incomes', arguments: incomesArgs),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+              return Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
                     child: Text.rich(
                       TextSpan(
                         text: findSign(code),
@@ -100,13 +97,23 @@ class _HomePageState extends ConsumerState<HomePage> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: IconButton.outlined(
+                      onPressed: () => nav.pushNamed(
+                        '/incomes',
+                        arguments: incomesArgs,
+                      ),
+                      icon: const Icon(Icons.arrow_forward),
+                    ),
+                  ),
+                ],
               );
             },
             error: (_, __) => const Text('Failed to load'),
             loading: () => const Text('...'),
           ),
-          const SizedBox(height: 8.0),
+          const SizedBox(height: 16.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Wrap(
