@@ -21,6 +21,7 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   late String _lang;
   final _speedDials = ['Installment', 'Income', 'Expense', 'Debt'];
+  final _now = DateTime.now();
 
   @override
   void initState() {
@@ -34,12 +35,20 @@ class _HomePageState extends ConsumerState<HomePage> {
     final currency = NumberFormat.currency(locale: _lang, symbol: '');
     final compact = NumberFormat.compactCurrency(locale: _lang, symbol: '');
     var incomes = ref.watch(incomesProvider);
+    var expenses = ref.watch(expensesProvider);
+    var installment = ref.watch(installmentsProvider);
+    var debts = ref.watch(debtsProvider);
     final textTheme = Theme.of(context).textTheme;
     final nav = Navigator.of(context);
     final dividerColor = Theme.of(context).dividerColor;
+    final thisMonth = DateFormat.MMMM().format(_now);
+    // final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(thisMonth),
+      ),
       body: ListView(
         children: [
           incomes.when(
@@ -71,7 +80,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   onTap: () =>
                       nav.pushNamed('/incomes', arguments: incomesArgs),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text.rich(
                       TextSpan(
                         text: findSign(code),
@@ -96,6 +105,87 @@ class _HomePageState extends ConsumerState<HomePage> {
             },
             error: (_, __) => const Text('Failed to load'),
             loading: () => const Text('...'),
+          ),
+          const SizedBox(height: 8.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Wrap(
+              spacing: 8.0,
+              children: [
+                expenses.when(
+                  data: (data) {
+                    if (data.isEmpty) {
+                      return FilledButton.icon(
+                        onPressed: null,
+                        icon: const Text('0'),
+                        label: const Text('Expenses'),
+                      );
+                    }
+          
+                    var length = data.length;
+          
+                    return FilledButton.icon(
+                      onPressed: () {},
+                      icon: Text('$length'),
+                      label: const Text('Expenses'),
+                    );
+                  },
+                  error: (_, __) => const SizedBox.shrink(),
+                  loading: () => const FilledButton(
+                    onPressed: null,
+                    child: Text('Expenses'),
+                  ),
+                ),
+                installment.when(
+                  data: (data) {
+                    if (data.isEmpty) {
+                      return FilledButton.icon(
+                        onPressed: null,
+                        icon: const Text('0'),
+                        label: const Text('Installments'),
+                      );
+                    }
+          
+                    var length = data.length;
+          
+                    return FilledButton.icon(
+                      onPressed: () {},
+                      icon: Text('$length'),
+                      label: const Text('Installments'),
+                    );
+                  },
+                  error: (_, __) => const SizedBox.shrink(),
+                  loading: () => const FilledButton(
+                    onPressed: null,
+                    child: Text('Installments'),
+                  ),
+                ),
+                debts.when(
+                  data: (data) {
+                    if (data.isEmpty) {
+                      return FilledButton.icon(
+                        onPressed: null,
+                        icon: const Text('0'),
+                        label: const Text('Debts'),
+                      );
+                    }
+          
+                    var length = data.length;
+          
+                    return FilledButton.icon(
+                      onPressed: () {},
+                      icon: Text('$length'),
+                      label: const Text('Debts'),
+                    );
+                  },
+                  error: (_, __) => const SizedBox.shrink(),
+                  loading: () => const FilledButton(
+                    onPressed: null,
+                    child: Text('Debts'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
