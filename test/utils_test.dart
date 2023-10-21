@@ -2,21 +2,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:boros_app/src/utils.dart';
 
 void main() {
-  test('Find lang code from currency code test', () {
-    const currencyCode = 'IDR';
-    late String lang;
+  group('Utils tests', () {
+    test('Find lang code from currency code test', () {
+      const currencyCode = 'IDR';
+      late String lang;
 
-    lang = findLang(currencyCode);
+      lang = findLang(currencyCode);
 
-    expect(lang, 'id');
-  });
+      expect(lang, 'id');
+    });
 
-  test('Find money sign from currency code', () {
-    const currencyCode = 'USD';
-    late String sign;
+    test('Find money sign from currency code', () {
+      const currencyCode = 'USD';
+      late String sign;
 
-    sign = findSign(currencyCode);
+      sign = findSign(currencyCode);
 
-    expect(sign, '\$');
+      expect(sign, '\$');
+    });
   });
 }
