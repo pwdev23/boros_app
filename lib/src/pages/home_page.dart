@@ -4,7 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 
 import '../providers/providers.dart';
-import '../utils.dart' show findLang;
+import '../utils.dart';
 import 'add_income_page.dart' show AddIncomeArgs;
 
 class HomePage extends ConsumerStatefulWidget {
@@ -31,28 +31,49 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final currency = NumberFormat.simpleCurrency(locale: _lang);
+    final currency = NumberFormat.currency(locale: _lang, symbol: '');
     var incomes = ref.watch(incomesProvider);
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.currencyCode),
-      ),
+      appBar: AppBar(),
       body: ListView(
         children: [
           incomes.when(
             data: (data) {
               if (data.isEmpty) {
-                return Text(currency.format(0));
+                return Text.rich(
+                  TextSpan(
+                    text: findSign(widget.currencyCode),
+                    children: [
+                      TextSpan(
+                        text: '0,00',
+                        style: textTheme.displaySmall,
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                );
               }
 
               double? sum = data
                   .map((e) => e.amount)
                   .reduce((value, element) => value! + element!);
 
-              return Text(currency.format(sum));
+              return Text.rich(
+                TextSpan(
+                  text: findSign(widget.currencyCode),
+                  children: [
+                    TextSpan(
+                      text: currency.format(sum),
+                      style: textTheme.displaySmall,
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              );
             },
-            error: (error, stackTrace) => const Text('Failed to load'),
+            error: (_, __) => const Text('Failed to load'),
             loading: () => const Text('...'),
           ),
         ],
