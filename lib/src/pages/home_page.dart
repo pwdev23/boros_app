@@ -125,7 +125,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     var length = data.length;
 
                     return FilledButton.icon(
-                      onPressed: () {},
+                      onPressed: () => nav.pushNamed('/expenses',
+                          arguments:
+                              ExpensesArgs(currencyCode: widget.currencyCode)),
                       icon: Text('$length'),
                       label: const Text('Expenses'),
                     );
@@ -214,6 +216,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   void _onSpeedDial(String dial) {
     final nav = Navigator.of(context);
+    final locale = Localizations.localeOf(context).toString();
+    final addExpenseArgs = AddExpenseArgs(locale: locale);
 
     switch (dial) {
       case 'Installment':
@@ -223,7 +227,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         nav.pushNamed('/add-income');
         break;
       case 'Expense':
-        nav.pushNamed('/add-expense');
+        nav.pushNamed('/add-expense', arguments: addExpenseArgs);
         break;
       case 'Debt':
         nav.pushNamed('/add-debt');

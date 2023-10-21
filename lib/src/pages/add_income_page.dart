@@ -39,7 +39,10 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
                   child: TextFormField(
                     controller: _amountController,
                     decoration: const InputDecoration(
-                        counterText: '', hintText: '99999'),
+                      counterText: '',
+                      hintText: '99999',
+                      labelText: 'Amount',
+                    ),
                     maxLength: 16,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
@@ -58,8 +61,9 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
                   child: TextFormField(
                     controller: _titleController,
                     decoration: const InputDecoration(
-                        counterText: '', hintText: hintText),
-                    maxLength: 16,
+                      hintText: hintText,
+                      labelText: 'Title',
+                    ),
                     keyboardType: TextInputType.name,
                     onChanged: (value) {
                       setState(() {});
