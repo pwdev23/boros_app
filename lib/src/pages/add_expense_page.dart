@@ -143,6 +143,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
     final now = DateTime.now();
 
     var expense = Expense()
+      ..category = selectedCategory
       ..amount = double.parse(_amountController.text)
       ..title = _titleController.text.trim()
       ..notes =

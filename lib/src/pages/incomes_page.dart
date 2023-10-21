@@ -126,7 +126,8 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
 
   void _showDetails(Income data) {
     final code = widget.currencyCode;
-    final currency = NumberFormat.currency(locale: findLang(code));
+    final currency =
+        NumberFormat.currency(locale: findLang(code), symbol: findSign(code));
     final mMMMEEEEd = DateFormat.MMMMEEEEd().format(data.createdAt!);
     final hM = DateFormat.Hm().format(data.createdAt!);
 
@@ -141,13 +142,13 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
           ),
           const Divider(height: 0.0),
           ListTile(
-            title: Text(data.title!),
-            subtitle: const Text('Title'),
+            title: Text(currency.format(data.amount)),
+            subtitle: const Text('Amount'),
           ),
           const Divider(height: 0.0),
           ListTile(
-            title: Text(currency.format(data.amount)),
-            subtitle: const Text('Amount'),
+            title: Text(data.title!),
+            subtitle: const Text('Title'),
           ),
         ],
       ),
