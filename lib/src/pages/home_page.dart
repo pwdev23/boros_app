@@ -121,9 +121,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                         label: const Text('Expenses'),
                       );
                     }
-          
+
                     var length = data.length;
-          
+
                     return FilledButton.icon(
                       onPressed: () {},
                       icon: Text('$length'),
@@ -145,9 +145,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                         label: const Text('Installments'),
                       );
                     }
-          
+
                     var length = data.length;
-          
+
                     return FilledButton.icon(
                       onPressed: () {},
                       icon: Text('$length'),
@@ -169,9 +169,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                         label: const Text('Debts'),
                       );
                     }
-          
+
                     var length = data.length;
-          
+
                     return FilledButton.icon(
                       onPressed: () {},
                       icon: Text('$length'),
@@ -208,15 +208,19 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     switch (dial) {
       case 'Installment':
+        nav.pushNamed('/add-installment');
         break;
       case 'Income':
         nav.pushNamed('/add-income');
         break;
       case 'Expense':
+        nav.pushNamed('/add-expense');
         break;
       case 'Debt':
+        nav.pushNamed('/add-debt');
         break;
       default:
+        return;
     }
   }
 }
