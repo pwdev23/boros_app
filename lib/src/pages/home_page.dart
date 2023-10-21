@@ -42,7 +42,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     final nav = Navigator.of(context);
     final dividerColor = Theme.of(context).dividerColor;
     final thisMonth = DateFormat.MMMM().format(_now);
-    // final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -192,10 +192,19 @@ class _HomePageState extends ConsumerState<HomePage> {
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         activeIcon: Icons.close,
+        spacing: 5.0,
         children: _speedDials
             .map((e) => SpeedDialChild(
                   label: e,
+                  labelBackgroundColor: Colors.transparent,
+                  labelStyle: textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.normal,
+                  ),
                   onTap: () => _onSpeedDial(e),
+                  backgroundColor: e == 'Expense' ? colorScheme.primary : null,
+                  foregroundColor:
+                      e == 'Expense' ? colorScheme.onPrimary : null,
+                  shape: const CircleBorder(),
                   child: const Icon(Icons.add),
                 ))
             .toList(),
