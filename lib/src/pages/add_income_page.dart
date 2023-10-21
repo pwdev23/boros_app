@@ -7,9 +7,7 @@ import '../isar_services.dart' show addIncome;
 class AddIncomePage extends ConsumerStatefulWidget {
   static const routeName = '/add-income';
 
-  const AddIncomePage({super.key, required this.currencyCode});
-
-  final String currencyCode;
+  const AddIncomePage({super.key});
 
   @override
   ConsumerState<AddIncomePage> createState() => _AddIncomePageState();
@@ -91,10 +89,4 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
     await addIncome(income: income)
         .then((_) => nav.pushNamedAndRemoveUntil('/', (route) => false));
   }
-}
-
-class AddIncomeArgs {
-  AddIncomeArgs(this.currencyCode);
-
-  final String currencyCode;
 }

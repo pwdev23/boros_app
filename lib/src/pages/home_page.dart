@@ -46,17 +46,13 @@ class _HomePageState extends ConsumerState<HomePage> {
             data: (data) {
               final code = widget.currencyCode;
               final incomesArgs = IncomesArgs(currencyCode: code);
-              final addIncomeArgs = AddIncomeArgs(code);
 
               if (data.isEmpty) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     OutlinedButton.icon(
-                      onPressed: () => nav.pushNamed(
-                        '/add-income',
-                        arguments: addIncomeArgs,
-                      ),
+                      onPressed: () => nav.pushNamed('/add-income'),
                       icon: const Icon(Icons.add),
                       label: const Text('Add income'),
                     ),
@@ -117,11 +113,13 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void _onSpeedDial(String dial) {
+    final nav = Navigator.of(context);
+
     switch (dial) {
       case 'Installment':
         break;
       case 'Income':
-        _onIncome();
+        nav.pushNamed('/add-income');
         break;
       case 'Expense':
         break;
@@ -129,13 +127,6 @@ class _HomePageState extends ConsumerState<HomePage> {
         break;
       default:
     }
-  }
-
-  void _onIncome() {
-    final nav = Navigator.of(context);
-    final args = AddIncomeArgs(widget.currencyCode);
-
-    nav.pushNamed('/add-income', arguments: args);
   }
 }
 

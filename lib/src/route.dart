@@ -13,9 +13,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case '/currency':
       return MaterialPageRoute(builder: (_) => const CurrencyPage());
     case '/add-income':
-      final args = settings.arguments as AddIncomeArgs;
-      return MaterialPageRoute(
-          builder: (_) => AddIncomePage(currencyCode: args.currencyCode));
+      return MaterialPageRoute(builder: (_) => const AddIncomePage());
     case '/incomes':
       final args = settings.arguments as IncomesArgs;
       return MaterialPageRoute(
