@@ -1,9 +1,9 @@
-import 'package:boros_app/src/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 
+import '../providers/providers.dart';
 import '../utils.dart' show findLang;
 import 'add_income_page.dart' show AddIncomeArgs;
 
@@ -25,35 +25,37 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
+
     _lang = findLang(widget.currencyCode);
   }
 
   @override
   Widget build(BuildContext context) {
-    final incomes = ref.watch(incomesProvider);
+    final currency = NumberFormat.simpleCurrency(locale: _lang);
+    var incomes = ref.watch(incomesProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.currencyCode),
       ),
-      body: incomes.when(
-        data: (data) {
-          if (data.isEmpty) {
-            return const Center(child: Text('Income is empty'));
-          }
+      body: ListView(
+        children: [
+          incomes.when(
+            data: (data) {
+              if (data.isEmpty) {
+                return Text(currency.format(0));
+              }
 
-          return ListView.separated(
-            itemBuilder: (context, index) => ListTile(
-              title: Text(NumberFormat.simpleCurrency(locale: _lang)
-                  .format(data[index].amount)),
-              subtitle: Text(data[index].title!),
-            ),
-            separatorBuilder: (_, __) => const Divider(height: 0.0),
-            itemCount: data.length,
-          );
-        },
-        error: (_, __) => const Center(child: Text('Failed to load')),
-        loading: () => const Center(child: CircularProgressIndicator()),
+              double? sum = data
+                  .map((e) => e.amount)
+                  .reduce((value, element) => value! + element!);
+
+              return Text(currency.format(sum));
+            },
+            error: (error, stackTrace) => const Text('Failed to load'),
+            loading: () => const Text('...'),
+          ),
+        ],
       ),
       floatingActionButton: SpeedDial(
         icon: Icons.add,

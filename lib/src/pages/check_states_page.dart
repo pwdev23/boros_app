@@ -40,6 +40,8 @@ class _CheckStatesPageState extends State<CheckStatesPage> {
     required Function(String) onCurrencyCode,
     required Function(String) onEmpty,
   }) async {
+    await Future.delayed(const Duration(seconds: 3));
+
     final prefs = await SharedPreferences.getInstance();
 
     if (prefs.getString('currencyCode') == null) {

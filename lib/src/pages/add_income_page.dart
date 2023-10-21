@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../collections/collections.dart' show Income;
-import '../providers/providers.dart' show incomesProvider;
 import '../isar_services.dart' show addIncome;
 
 class AddIncomePage extends ConsumerStatefulWidget {
@@ -86,12 +85,11 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
 
     var income = Income()
       ..amount = double.parse(_amountController.text)
-      ..title = _titleController.text
+      ..title = _titleController.text.trim()
       ..createdAt = now;
 
     await addIncome(income: income)
-        .then((_) => ref.invalidate(incomesProvider))
-        .then((_) => nav.pop());
+        .then((_) => nav.pushNamedAndRemoveUntil('/', (route) => false));
   }
 }
 
