@@ -45,6 +45,11 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
                     onChanged: (value) {
                       setState(() {});
                     },
+                    validator: (value) {
+                      if (value!.isEmpty) return 'Invalid amount';
+
+                      return null;
+                    },
                   ),
                 ),
                 const SizedBox(height: 8.0),
@@ -58,6 +63,11 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
                     keyboardType: TextInputType.name,
                     onChanged: (value) {
                       setState(() {});
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) return 'Income title is required';
+
+                      return null;
                     },
                   ),
                 ),

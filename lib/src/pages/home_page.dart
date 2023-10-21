@@ -106,6 +106,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             .map((e) => SpeedDialChild(
                   label: e,
                   onTap: () => _onSpeedDial(e),
+                  child: const Icon(Icons.add),
                 ))
             .toList(),
       ),
