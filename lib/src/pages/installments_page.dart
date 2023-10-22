@@ -77,35 +77,43 @@ class _InstallmentsPageState extends ConsumerState<InstallmentsPage> {
               return const Center(child: Text('There\'s no installment yet'));
             }
 
-            return ListView.separated(
-              itemBuilder: (context, index) => ListTile(
-                title: Text(currency.format(data[index].amount)),
-                subtitle: Text(data[index].title!),
-                onTap: () {
-                  if (_loading) return;
+            return Stack(
+              children: [
+                ListView.separated(
+                  itemBuilder: (context, index) => ListTile(
+                    title: Text(currency.format(data[index].amount)),
+                    subtitle: Text(data[index].title!),
+                    onTap: () {
+                      if (_loading) return;
 
-                  if (_ids.isEmpty) {
-                    _showDetails(data[index]);
-                    return;
-                  }
+                      if (_ids.isEmpty) {
+                        _showDetails(data[index]);
+                        return;
+                      }
 
-                  if (_ids.contains(data[index].id)) {
-                    _ids.remove(data[index].id);
-                  } else {
-                    _ids.add(data[index].id);
-                  }
+                      if (_ids.contains(data[index].id)) {
+                        _ids.remove(data[index].id);
+                      } else {
+                        _ids.add(data[index].id);
+                      }
 
-                  setState(() {});
-                },
-                onLongPress: () {
-                  if (_loading) return;
+                      setState(() {});
+                    },
+                    onLongPress: () {
+                      if (_loading) return;
 
-                  _ids.add(data[index].id);
-                  setState(() {});
-                },
-              ),
-              separatorBuilder: (_, __) => const Divider(height: 0.0),
-              itemCount: data.length,
+                      _ids.add(data[index].id);
+                      setState(() {});
+                    },
+                    tileColor: _ids.contains(data[index].id)
+                        ? colorScheme.primaryContainer
+                        : null,
+                  ),
+                  separatorBuilder: (_, __) => const Divider(height: 0.0),
+                  itemCount: data.length,
+                ),
+                if (_loading) const LinearProgressIndicator(),
+              ],
             );
           },
           error: (_, __) => const Center(child: Text('Failed to load')),
