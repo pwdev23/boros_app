@@ -146,19 +146,17 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   void _onSpeedDial(String dial) {
     final nav = Navigator.of(context);
-    final locale = Localizations.localeOf(context).toString();
-    final addExpenseArgs = AddExpenseArgs(locale: locale);
-    const addInstallmentArgs = AddInstallmentArgs('main');
+    const args = AddInstallmentArgs('main');
 
     switch (dial) {
       case 'Installment':
-        nav.pushNamed('/add-installment', arguments: addInstallmentArgs);
+        nav.pushNamed('/add-installment', arguments: args);
         break;
       case 'Income':
         nav.pushNamed('/add-income');
         break;
       case 'Expense':
-        nav.pushNamed('/add-expense', arguments: addExpenseArgs);
+        nav.pushNamed('/add-expense');
         break;
       case 'Debt':
         nav.pushNamed('/add-debt');

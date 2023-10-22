@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../collections/collections.dart' show Installment;
+import '../isar_services.dart';
+
 class AddInstallmentPage extends ConsumerStatefulWidget {
   static const routeName = '/add-installment';
 
@@ -119,13 +122,27 @@ class _AddInstallmentPageState extends ConsumerState<AddInstallmentPage>
           FilledButton(
             onPressed: _formKey.currentState != null &&
                     _formKey.currentState!.validate()
-                ? () {}
+                ? () => _onAddInstallment()
                 : null,
             child: const Text('Add installment'),
           ),
         ],
       ),
     );
+  }
+
+  void _onAddInstallment() async {
+    final nav = Navigator.of(context);
+
+    var installment = Installment()
+      ..amount = double.parse(_amountController.text)
+      ..title = _titleController.text.trim()
+      ..dueDate = _selectedDate.value
+      ..notes = _notesController.text.isEmpty ? 'n/a' : _notesController.text
+      ..createdAt = DateTime.now();
+
+    await addInstallment(installment: installment)
+        .then((_) => nav.pushNamedAndRemoveUntil('/', (route) => false));
   }
 
   @pragma('vm:entry-point')

@@ -7,3 +7,4 @@ export 'add_installment_page.dart';
 export 'add_expense_page.dart';
 export 'add_debt_page.dart';
 export 'expenses_page.dart';
+export 'installments_page.dart';

@@ -8,9 +8,7 @@ import '../utils.dart';
 class AddExpensePage extends StatefulWidget {
   static const routeName = '/add-expense';
 
-  const AddExpensePage({super.key, required this.locale});
-
-  final String locale;
+  const AddExpensePage({super.key});
 
   @override
   State<AddExpensePage> createState() => _AddExpensePageState();
@@ -34,6 +32,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    var locale = '${Localizations.localeOf(context)}';
 
     return Scaffold(
       appBar: AppBar(
@@ -98,7 +97,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                       labelText: 'Title',
                       hintText: _selectedCategory == 'n/a'
                           ? 'e.g., Internet bill, Dinner out'
-                          : findHintText(_selectedCategory, widget.locale),
+                          : findHintText(_selectedCategory, locale),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -156,10 +155,4 @@ class _AddExpensePageState extends State<AddExpensePage> {
     await addExpense(expense: expense)
         .then((_) => nav.pushNamedAndRemoveUntil('/', (route) => false));
   }
-}
-
-class AddExpenseArgs {
-  const AddExpenseArgs({required this.locale});
-
-  final String locale;
 }

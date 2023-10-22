@@ -8,7 +8,6 @@ import '../providers/providers.dart' show expensesProvider;
 import '../shared/bottom_sheet_handle.dart';
 import '../shared/tiny_circle_border.dart';
 import '../utils.dart';
-import 'add_expense_page.dart' show AddExpenseArgs;
 
 class ExpensesPage extends ConsumerStatefulWidget {
   static const routeName = '/expenses';
@@ -34,8 +33,6 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
     );
     final nav = Navigator.of(context);
     final expenses = ref.watch(expensesProvider);
-    final locale = '${Localizations.localeOf(context)}';
-    final args = AddExpenseArgs(locale: locale);
 
     return WillPopScope(
       onWillPop: () => Future.value(!_loading),
@@ -47,10 +44,7 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
             _ids.isEmpty
                 ? IconButton(
                     color: colorScheme.surfaceTint,
-                    onPressed: () => nav.pushNamed(
-                      '/add-expense',
-                      arguments: args,
-                    ),
+                    onPressed: () => nav.pushNamed('/add-expense'),
                     icon: const Icon(Icons.add),
                   )
                 : IconButton(
