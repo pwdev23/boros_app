@@ -35,86 +35,90 @@ class _DebtsPageState extends ConsumerState<DebtsPage> {
       symbol: findSign(widget.currencyCode),
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Debts'),
-        actions: [
-          if (_ids.isNotEmpty) TinyCircleBorder(text: '${_ids.length}'),
-          _ids.isEmpty
-              ? IconButton(
-                  onPressed: () => nav.pushNamed(
-                    '/add-debt',
-                    arguments: args,
-                  ),
-                  icon: Icon(Icons.add, color: colorScheme.surfaceTint),
-                )
-              : IconButton(
-                  onPressed: () async {
-                    setState(() => _loading = true);
+    return WillPopScope(
+      onWillPop: () => Future.value(!_loading),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Debts'),
+          actions: [
+            if (_ids.isNotEmpty) TinyCircleBorder(text: '${_ids.length}'),
+            _ids.isEmpty
+                ? IconButton(
+                    onPressed: () => nav.pushNamed(
+                      '/add-debt',
+                      arguments: args,
+                    ),
+                    icon: Icon(Icons.add, color: colorScheme.surfaceTint),
+                  )
+                : IconButton(
+                    onPressed: () async {
+                      setState(() => _loading = true);
 
-                    const s = Duration(seconds: 3);
-                    final message = ScaffoldMessenger.of(context);
-                    const snackBar = SnackBar(
-                        content: Text('The data successfully deleted'));
+                      const s = Duration(seconds: 3);
+                      final message = ScaffoldMessenger.of(context);
+                      const snackBar = SnackBar(
+                          content: Text('The data successfully deleted'));
 
-                    await deleteDebts(ids: _ids.toList());
-                    await Future.delayed(s, () => ref.invalidate(debtsProvider))
-                        .then((_) => _ids.clear())
-                        .then((_) => setState(() => _loading = false))
-                        .then((_) => message.showSnackBar(snackBar));
-                  },
-                  icon: const Icon(Icons.delete),
-                )
-        ],
-      ),
-      body: debts.when(
-        data: (data) {
-          if (data.isEmpty) {
-            return const Center(child: Text('There\'s no debt yet'));
-          }
+                      await deleteDebts(ids: _ids.toList());
+                      await Future.delayed(
+                              s, () => ref.invalidate(debtsProvider))
+                          .then((_) => _ids.clear())
+                          .then((_) => setState(() => _loading = false))
+                          .then((_) => message.showSnackBar(snackBar));
+                    },
+                    icon: const Icon(Icons.delete),
+                  )
+          ],
+        ),
+        body: debts.when(
+          data: (data) {
+            if (data.isEmpty) {
+              return const Center(child: Text('There\'s no debt yet'));
+            }
 
-          return Stack(
-            children: [
-              ListView.separated(
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(currency.format(data[index].amount)),
-                  subtitle: Text(data[index].title!),
-                  onTap: () {
-                    if (_loading) return;
+            return Stack(
+              children: [
+                ListView.separated(
+                  itemBuilder: (context, index) => ListTile(
+                    title: Text(currency.format(data[index].amount)),
+                    subtitle: Text(data[index].title!),
+                    onTap: () {
+                      if (_loading) return;
 
-                    if (_ids.isEmpty) {
-                      _showDetails(data[index]);
-                      return;
-                    }
+                      if (_ids.isEmpty) {
+                        _showDetails(data[index]);
+                        return;
+                      }
 
-                    if (_ids.contains(data[index].id)) {
-                      _ids.remove(data[index].id);
-                    } else {
+                      if (_ids.contains(data[index].id)) {
+                        _ids.remove(data[index].id);
+                      } else {
+                        _ids.add(data[index].id);
+                      }
+
+                      setState(() {});
+                    },
+                    onLongPress: () {
+                      if (_loading) return;
+
                       _ids.add(data[index].id);
-                    }
-
-                    setState(() {});
-                  },
-                  onLongPress: () {
-                    if (_loading) return;
-
-                    _ids.add(data[index].id);
-                    setState(() {});
-                  },
-                  tileColor: _ids.contains(data[index].id)
-                      ? colorScheme.primaryContainer
-                      : null,
+                      setState(() {});
+                    },
+                    tileColor: _ids.contains(data[index].id)
+                        ? colorScheme.primaryContainer
+                        : null,
+                  ),
+                  separatorBuilder: (_, __) => const Divider(height: 0.0),
+                  itemCount: data.length,
                 ),
-                separatorBuilder: (_, __) => const Divider(height: 0.0),
-                itemCount: data.length,
-              ),
-              if (_loading) const LinearProgressIndicator(),
-            ],
-          );
-        },
-        error: (_, __) => const Center(child: Text('Failed to load')),
-        loading: () =>
-            const Center(child: CircularProgressIndicator.adaptive()),
+                if (_loading) const LinearProgressIndicator(),
+              ],
+            );
+          },
+          error: (_, __) => const Center(child: Text('Failed to load')),
+          loading: () =>
+              const Center(child: CircularProgressIndicator.adaptive()),
+        ),
       ),
     );
   }
