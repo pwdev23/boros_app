@@ -4,7 +4,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 
 import '../providers/providers.dart';
-import '../utils.dart';
 import 'pages.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -19,28 +18,16 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  late String _lang;
   final _speedDials = ['Installment', 'Income', 'Expense', 'Debt'];
   final _now = DateTime.now();
 
   @override
-  void initState() {
-    super.initState();
-
-    _lang = findLang(widget.currencyCode);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final currency = NumberFormat.currency(locale: _lang, symbol: '');
-    final compact = NumberFormat.compactCurrency(locale: _lang, symbol: '');
-    var incomes = ref.watch(incomesProvider);
     var expenses = ref.watch(expensesProvider);
     var installment = ref.watch(installmentsProvider);
     var debts = ref.watch(debtsProvider);
     final textTheme = Theme.of(context).textTheme;
     final nav = Navigator.of(context);
-    final dividerColor = Theme.of(context).dividerColor;
     final thisMonth = DateFormat.MMMM().format(_now);
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -51,86 +38,6 @@ class _HomePageState extends ConsumerState<HomePage> {
       ),
       body: ListView(
         children: [
-          incomes.when(
-            data: (data) {
-              final code = widget.currencyCode;
-              final incomesArgs = IncomesArgs(currencyCode: code);
-
-              if (data.isEmpty) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OutlinedButton.icon(
-                      onPressed: () => nav.pushNamed('/add-income'),
-                      icon: const Icon(Icons.add),
-                      label: const Text('Add income'),
-                    ),
-                  ],
-                );
-              }
-
-              double? sum = data
-                  .map((e) => e.amount)
-                  .reduce((value, element) => value! + element!);
-
-              return Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text.rich(
-                      TextSpan(
-                        text: findSign(code),
-                        style: textTheme.titleMedium,
-                        children: [
-                          TextSpan(
-                            text: '${compact.format(sum)}\n',
-                            style: textTheme.displayMedium,
-                          ),
-                          TextSpan(
-                            text: '${findSign(code)}${currency.format(sum)}',
-                            style: textTheme.bodySmall!
-                                .copyWith(color: dividerColor),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: IconButton.outlined(
-                      onPressed: () => nav.pushNamed(
-                        '/incomes',
-                        arguments: incomesArgs,
-                      ),
-                      icon: const Icon(Icons.arrow_forward),
-                    ),
-                  ),
-                ],
-              );
-            },
-            error: (_, __) => const Text('Failed to load'),
-            loading: () => Text.rich(
-              TextSpan(
-                text: findSign(widget.currencyCode),
-                style: textTheme.titleMedium,
-                children: [
-                  TextSpan(
-                    text: '${compact.format(0)}\n',
-                    style: textTheme.displayMedium,
-                  ),
-                  TextSpan(
-                    text:
-                        '${findSign(widget.currencyCode)}${currency.format(0)}',
-                    style: textTheme.bodySmall!.copyWith(color: dividerColor),
-                  ),
-                ],
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(height: 16.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Wrap(
@@ -241,10 +148,11 @@ class _HomePageState extends ConsumerState<HomePage> {
     final nav = Navigator.of(context);
     final locale = Localizations.localeOf(context).toString();
     final addExpenseArgs = AddExpenseArgs(locale: locale);
+    const addInstallmentArgs = AddInstallmentArgs('main');
 
     switch (dial) {
       case 'Installment':
-        nav.pushNamed('/add-installment');
+        nav.pushNamed('/add-installment', arguments: addInstallmentArgs);
         break;
       case 'Income':
         nav.pushNamed('/add-income');

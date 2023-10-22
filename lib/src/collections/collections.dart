@@ -18,9 +18,10 @@ class Installment {
   Id id = Isar.autoIncrement;
 
   String? title;
-  double? monthlyPayment;
+  double? amount;
   String? notes;
   DateTime? dueDate;
+  DateTime? createdAt;
 }
 
 @collection
@@ -33,6 +34,7 @@ class Debt {
   double? minimumPayment;
   String? notes;
   DateTime? dueDate;
+  DateTime? createdAt;
 }
 
 @collection

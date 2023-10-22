@@ -1091,23 +1091,28 @@ const InstallmentSchema = CollectionSchema(
   name: r'Installment',
   id: -4029325804810542109,
   properties: {
-    r'dueDate': PropertySchema(
+    r'amount': PropertySchema(
       id: 0,
+      name: r'amount',
+      type: IsarType.double,
+    ),
+    r'createdAt': PropertySchema(
+      id: 1,
+      name: r'createdAt',
+      type: IsarType.dateTime,
+    ),
+    r'dueDate': PropertySchema(
+      id: 2,
       name: r'dueDate',
       type: IsarType.dateTime,
     ),
-    r'monthlyPayment': PropertySchema(
-      id: 1,
-      name: r'monthlyPayment',
-      type: IsarType.double,
-    ),
     r'notes': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'notes',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'title',
       type: IsarType.string,
     )
@@ -1153,10 +1158,11 @@ void _installmentSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.dueDate);
-  writer.writeDouble(offsets[1], object.monthlyPayment);
-  writer.writeString(offsets[2], object.notes);
-  writer.writeString(offsets[3], object.title);
+  writer.writeDouble(offsets[0], object.amount);
+  writer.writeDateTime(offsets[1], object.createdAt);
+  writer.writeDateTime(offsets[2], object.dueDate);
+  writer.writeString(offsets[3], object.notes);
+  writer.writeString(offsets[4], object.title);
 }
 
 Installment _installmentDeserialize(
@@ -1166,11 +1172,12 @@ Installment _installmentDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Installment();
-  object.dueDate = reader.readDateTimeOrNull(offsets[0]);
+  object.amount = reader.readDoubleOrNull(offsets[0]);
+  object.createdAt = reader.readDateTimeOrNull(offsets[1]);
+  object.dueDate = reader.readDateTimeOrNull(offsets[2]);
   object.id = id;
-  object.monthlyPayment = reader.readDoubleOrNull(offsets[1]);
-  object.notes = reader.readStringOrNull(offsets[2]);
-  object.title = reader.readStringOrNull(offsets[3]);
+  object.notes = reader.readStringOrNull(offsets[3]);
+  object.title = reader.readStringOrNull(offsets[4]);
   return object;
 }
 
@@ -1182,12 +1189,14 @@ P _installmentDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 1:
       return (reader.readDoubleOrNull(offset)) as P;
+    case 1:
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1287,6 +1296,160 @@ extension InstallmentQueryWhere
 
 extension InstallmentQueryFilter
     on QueryBuilder<Installment, Installment, QFilterCondition> {
+  QueryBuilder<Installment, Installment, QAfterFilterCondition> amountIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'amount',
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition>
+      amountIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'amount',
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition> amountEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'amount',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition>
+      amountGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'amount',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition> amountLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'amount',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition> amountBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'amount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition>
+      createdAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'createdAt',
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition>
+      createdAtIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'createdAt',
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition>
+      createdAtEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition>
+      createdAtGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition>
+      createdAtLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterFilterCondition>
+      createdAtBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Installment, Installment, QAfterFilterCondition>
       dueDateIsNull() {
     return QueryBuilder.apply(this, (query) {
@@ -1408,90 +1571,6 @@ extension InstallmentQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterFilterCondition>
-      monthlyPaymentIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'monthlyPayment',
-      ));
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterFilterCondition>
-      monthlyPaymentIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'monthlyPayment',
-      ));
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterFilterCondition>
-      monthlyPaymentEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'monthlyPayment',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterFilterCondition>
-      monthlyPaymentGreaterThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'monthlyPayment',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterFilterCondition>
-      monthlyPaymentLessThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'monthlyPayment',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterFilterCondition>
-      monthlyPaymentBetween(
-    double? lower,
-    double? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'monthlyPayment',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -1803,6 +1882,30 @@ extension InstallmentQueryLinks
 
 extension InstallmentQuerySortBy
     on QueryBuilder<Installment, Installment, QSortBy> {
+  QueryBuilder<Installment, Installment, QAfterSortBy> sortByAmount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'amount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterSortBy> sortByAmountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'amount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterSortBy> sortByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterSortBy> sortByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<Installment, Installment, QAfterSortBy> sortByDueDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dueDate', Sort.asc);
@@ -1812,19 +1915,6 @@ extension InstallmentQuerySortBy
   QueryBuilder<Installment, Installment, QAfterSortBy> sortByDueDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dueDate', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterSortBy> sortByMonthlyPayment() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'monthlyPayment', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterSortBy>
-      sortByMonthlyPaymentDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'monthlyPayment', Sort.desc);
     });
   }
 
@@ -1855,6 +1945,30 @@ extension InstallmentQuerySortBy
 
 extension InstallmentQuerySortThenBy
     on QueryBuilder<Installment, Installment, QSortThenBy> {
+  QueryBuilder<Installment, Installment, QAfterSortBy> thenByAmount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'amount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterSortBy> thenByAmountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'amount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterSortBy> thenByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QAfterSortBy> thenByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<Installment, Installment, QAfterSortBy> thenByDueDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dueDate', Sort.asc);
@@ -1876,19 +1990,6 @@ extension InstallmentQuerySortThenBy
   QueryBuilder<Installment, Installment, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterSortBy> thenByMonthlyPayment() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'monthlyPayment', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Installment, Installment, QAfterSortBy>
-      thenByMonthlyPaymentDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'monthlyPayment', Sort.desc);
     });
   }
 
@@ -1919,15 +2020,21 @@ extension InstallmentQuerySortThenBy
 
 extension InstallmentQueryWhereDistinct
     on QueryBuilder<Installment, Installment, QDistinct> {
-  QueryBuilder<Installment, Installment, QDistinct> distinctByDueDate() {
+  QueryBuilder<Installment, Installment, QDistinct> distinctByAmount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'dueDate');
+      return query.addDistinctBy(r'amount');
     });
   }
 
-  QueryBuilder<Installment, Installment, QDistinct> distinctByMonthlyPayment() {
+  QueryBuilder<Installment, Installment, QDistinct> distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'monthlyPayment');
+      return query.addDistinctBy(r'createdAt');
+    });
+  }
+
+  QueryBuilder<Installment, Installment, QDistinct> distinctByDueDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dueDate');
     });
   }
 
@@ -1954,16 +2061,21 @@ extension InstallmentQueryProperty
     });
   }
 
-  QueryBuilder<Installment, DateTime?, QQueryOperations> dueDateProperty() {
+  QueryBuilder<Installment, double?, QQueryOperations> amountProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'dueDate');
+      return query.addPropertyName(r'amount');
     });
   }
 
-  QueryBuilder<Installment, double?, QQueryOperations>
-      monthlyPaymentProperty() {
+  QueryBuilder<Installment, DateTime?, QQueryOperations> createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'monthlyPayment');
+      return query.addPropertyName(r'createdAt');
+    });
+  }
+
+  QueryBuilder<Installment, DateTime?, QQueryOperations> dueDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dueDate');
     });
   }
 
@@ -1996,28 +2108,33 @@ const DebtSchema = CollectionSchema(
       name: r'amount',
       type: IsarType.double,
     ),
-    r'dueDate': PropertySchema(
+    r'createdAt': PropertySchema(
       id: 1,
+      name: r'createdAt',
+      type: IsarType.dateTime,
+    ),
+    r'dueDate': PropertySchema(
+      id: 2,
       name: r'dueDate',
       type: IsarType.dateTime,
     ),
     r'interestRate': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'interestRate',
       type: IsarType.double,
     ),
     r'minimumPayment': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'minimumPayment',
       type: IsarType.double,
     ),
     r'notes': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'notes',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'title',
       type: IsarType.string,
     )
@@ -2064,11 +2181,12 @@ void _debtSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDouble(offsets[0], object.amount);
-  writer.writeDateTime(offsets[1], object.dueDate);
-  writer.writeDouble(offsets[2], object.interestRate);
-  writer.writeDouble(offsets[3], object.minimumPayment);
-  writer.writeString(offsets[4], object.notes);
-  writer.writeString(offsets[5], object.title);
+  writer.writeDateTime(offsets[1], object.createdAt);
+  writer.writeDateTime(offsets[2], object.dueDate);
+  writer.writeDouble(offsets[3], object.interestRate);
+  writer.writeDouble(offsets[4], object.minimumPayment);
+  writer.writeString(offsets[5], object.notes);
+  writer.writeString(offsets[6], object.title);
 }
 
 Debt _debtDeserialize(
@@ -2079,12 +2197,13 @@ Debt _debtDeserialize(
 ) {
   final object = Debt();
   object.amount = reader.readDoubleOrNull(offsets[0]);
-  object.dueDate = reader.readDateTimeOrNull(offsets[1]);
+  object.createdAt = reader.readDateTimeOrNull(offsets[1]);
+  object.dueDate = reader.readDateTimeOrNull(offsets[2]);
   object.id = id;
-  object.interestRate = reader.readDoubleOrNull(offsets[2]);
-  object.minimumPayment = reader.readDoubleOrNull(offsets[3]);
-  object.notes = reader.readStringOrNull(offsets[4]);
-  object.title = reader.readStringOrNull(offsets[5]);
+  object.interestRate = reader.readDoubleOrNull(offsets[3]);
+  object.minimumPayment = reader.readDoubleOrNull(offsets[4]);
+  object.notes = reader.readStringOrNull(offsets[5]);
+  object.title = reader.readStringOrNull(offsets[6]);
   return object;
 }
 
@@ -2100,12 +2219,14 @@ P _debtDeserializeProp<P>(
     case 1:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 3:
       return (reader.readDoubleOrNull(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 5:
+      return (reader.readStringOrNull(offset)) as P;
+    case 6:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2274,6 +2395,75 @@ extension DebtQueryFilter on QueryBuilder<Debt, Debt, QFilterCondition> {
         upper: upper,
         includeUpper: includeUpper,
         epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Debt, Debt, QAfterFilterCondition> createdAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'createdAt',
+      ));
+    });
+  }
+
+  QueryBuilder<Debt, Debt, QAfterFilterCondition> createdAtIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'createdAt',
+      ));
+    });
+  }
+
+  QueryBuilder<Debt, Debt, QAfterFilterCondition> createdAtEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Debt, Debt, QAfterFilterCondition> createdAtGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Debt, Debt, QAfterFilterCondition> createdAtLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Debt, Debt, QAfterFilterCondition> createdAtBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -2861,6 +3051,18 @@ extension DebtQuerySortBy on QueryBuilder<Debt, Debt, QSortBy> {
     });
   }
 
+  QueryBuilder<Debt, Debt, QAfterSortBy> sortByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Debt, Debt, QAfterSortBy> sortByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<Debt, Debt, QAfterSortBy> sortByDueDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dueDate', Sort.asc);
@@ -2932,6 +3134,18 @@ extension DebtQuerySortThenBy on QueryBuilder<Debt, Debt, QSortThenBy> {
   QueryBuilder<Debt, Debt, QAfterSortBy> thenByAmountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'amount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Debt, Debt, QAfterSortBy> thenByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Debt, Debt, QAfterSortBy> thenByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
@@ -3015,6 +3229,12 @@ extension DebtQueryWhereDistinct on QueryBuilder<Debt, Debt, QDistinct> {
     });
   }
 
+  QueryBuilder<Debt, Debt, QDistinct> distinctByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createdAt');
+    });
+  }
+
   QueryBuilder<Debt, Debt, QDistinct> distinctByDueDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'dueDate');
@@ -3058,6 +3278,12 @@ extension DebtQueryProperty on QueryBuilder<Debt, Debt, QQueryProperty> {
   QueryBuilder<Debt, double?, QQueryOperations> amountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'amount');
+    });
+  }
+
+  QueryBuilder<Debt, DateTime?, QQueryOperations> createdAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdAt');
     });
   }
 

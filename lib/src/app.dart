@@ -18,6 +18,7 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       initialRoute: '/',
       onGenerateRoute: onGenerateRoute,
+      restorationScopeId: 'app',
     );
   }
 }
