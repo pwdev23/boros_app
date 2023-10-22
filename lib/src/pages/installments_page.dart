@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../collections/collections.dart' show Installment;
-import '../isar_services.dart';
+import '../isar_services.dart' show deleteInstallments;
 import '../providers/providers.dart' show installmentsProvider;
 import '../shared/bottom_sheet_handle.dart';
 import '../shared/tiny_circle_border.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../collections/collections.dart' show Installment;
-import '../isar_services.dart';
+import '../isar_services.dart' show addInstallment;
 
 class AddInstallmentPage extends ConsumerStatefulWidget {
   static const routeName = '/add-installment';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../collections/collections.dart';
-import '../isar_services.dart';
+import '../collections/collections.dart' show Debt;
+import '../isar_services.dart' show addDebt;
 
 class AddDebtPage extends ConsumerStatefulWidget {
   static const routeName = '/add-debt';
