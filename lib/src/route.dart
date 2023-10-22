@@ -35,6 +35,10 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       final args = settings.arguments as InstallmentsArgs;
       return MaterialPageRoute(
           builder: (_) => InstallmentsPage(currencyCode: args.currencyCode));
+    case '/debts':
+      final args = settings.arguments as DebtsArgs;
+      return MaterialPageRoute(
+          builder: (_) => DebtsPage(currencyCode: args.currencyCode));
     default:
       return MaterialPageRoute(
         builder: (_) => Scaffold(

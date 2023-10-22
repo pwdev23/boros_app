@@ -112,7 +112,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                     var length = data.length;
 
                     return FilledButton.icon(
-                      onPressed: () {},
+                      onPressed: () => nav.pushNamed(
+                        '/debts',
+                        arguments: DebtsArgs(currencyCode: widget.currencyCode),
+                      ),
                       icon: Text('$length'),
                       label: const Text('Debts'),
                     );
