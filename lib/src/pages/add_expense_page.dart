@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../collections/collections.dart' show Expense;
 import '../constants.dart' show kCategorySuggestions;
 import '../isar_services.dart' show addExpense;
+import '../utils.dart';
 
 class AddExpensePage extends StatefulWidget {
   static const routeName = '/add-expense';
@@ -16,7 +17,7 @@ class AddExpensePage extends StatefulWidget {
 }
 
 class _AddExpensePageState extends State<AddExpensePage> {
-  String selectedCategory = 'n/a';
+  String _selectedCategory = 'n/a';
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   final _titleController = TextEditingController();
@@ -51,14 +52,14 @@ class _AddExpensePageState extends State<AddExpensePage> {
               children: kCategorySuggestions
                   .map((e) => ChoiceChip(
                       onSelected: (_) {
-                        if ('${e['title']}' == selectedCategory) {
-                          setState(() => selectedCategory = 'n/a');
+                        if ('${e['title']}' == _selectedCategory) {
+                          setState(() => _selectedCategory = 'n/a');
                           return;
                         }
-                        setState(() => selectedCategory = '${e['title']}');
+                        setState(() => _selectedCategory = '${e['title']}');
                       },
                       label: Text('${e['title']}'),
-                      selected: selectedCategory == '${e['title']}'))
+                      selected: _selectedCategory == '${e['title']}'))
                   .toList(),
             ),
           ),
@@ -93,9 +94,11 @@ class _AddExpensePageState extends State<AddExpensePage> {
                   TextFormField(
                     controller: _titleController,
                     keyboardType: TextInputType.name,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Title',
-                      hintText: 'e.g., Internet bill, Dinner out',
+                      hintText: _selectedCategory == 'n/a'
+                          ? 'e.g., Internet bill, Dinner out'
+                          : findHintText(_selectedCategory, widget.locale),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -124,7 +127,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                   FilledButton(
                     onPressed: _formKey.currentState != null &&
                             _formKey.currentState!.validate() &&
-                            selectedCategory != 'n/a'
+                            _selectedCategory != 'n/a'
                         ? () => _onAddExpense()
                         : null,
                     child: const Text('Add expense'),
@@ -143,7 +146,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
     final now = DateTime.now();
 
     var expense = Expense()
-      ..category = selectedCategory
+      ..category = _selectedCategory
       ..amount = double.parse(_amountController.text)
       ..title = _titleController.text.trim()
       ..notes =

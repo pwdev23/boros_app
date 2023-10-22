@@ -111,7 +111,24 @@ class _HomePageState extends ConsumerState<HomePage> {
               );
             },
             error: (_, __) => const Text('Failed to load'),
-            loading: () => const Text('...'),
+            loading: () => Text.rich(
+              TextSpan(
+                text: findSign(widget.currencyCode),
+                style: textTheme.titleMedium,
+                children: [
+                  TextSpan(
+                    text: '${compact.format(0)}\n',
+                    style: textTheme.displayMedium,
+                  ),
+                  TextSpan(
+                    text:
+                        '${findSign(widget.currencyCode)}${currency.format(0)}',
+                    style: textTheme.bodySmall!.copyWith(color: dividerColor),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
           const SizedBox(height: 16.0),
           Padding(
@@ -205,7 +222,6 @@ class _HomePageState extends ConsumerState<HomePage> {
         children: _speedDials
             .map((e) => SpeedDialChild(
                   label: e,
-                  labelBackgroundColor: Colors.transparent,
                   labelStyle: textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.normal,
                   ),

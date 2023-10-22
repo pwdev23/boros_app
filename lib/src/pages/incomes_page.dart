@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../collections/collections.dart' show Income;
 import '../providers/providers.dart' show incomesProvider;
 import '../shared/bottom_sheet_handle.dart';
+import '../shared/tiny_circle_border.dart';
 import '../utils.dart';
 import '../isar_services.dart' show deleteIncomes;
 
@@ -38,7 +39,7 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
         appBar: AppBar(
           title: const Text('Incomes'),
           actions: [
-            if (_ids.isNotEmpty) _Circle(text: '${_ids.length}'),
+            if (_ids.isNotEmpty) TinyCircleBorder(text: '${_ids.length}'),
             _ids.isEmpty
                 ? IconButton(
                     color: colorScheme.surfaceTint,
@@ -55,7 +56,7 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
                       const s = Duration(seconds: 3);
                       final message = ScaffoldMessenger.of(context);
                       const snackBar = SnackBar(
-                          content: Text('Income data successfully deleted'));
+                          content: Text('The data successfully deleted'));
 
                       await deleteIncomes(ids: _ids.toList());
                       await Future.delayed(
@@ -76,7 +77,6 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
 
             return Stack(
               children: [
-                if (_loading) const LinearProgressIndicator(),
                 ListView.separated(
                   itemBuilder: (context, index) => ListTile(
                     onTap: () {
@@ -110,6 +110,7 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
                   separatorBuilder: (_, __) => const Divider(height: 0.0),
                   itemCount: data.length,
                 ),
+                if (_loading) const LinearProgressIndicator(),
               ],
             );
           },
@@ -160,25 +161,4 @@ class IncomesArgs {
   const IncomesArgs({required this.currencyCode});
 
   final String currencyCode;
-}
-
-class _Circle extends StatelessWidget {
-  const _Circle({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.all(5.0),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: colorScheme.inverseSurface,
-      ),
-      child: Text(text, style: TextStyle(color: colorScheme.onInverseSurface)),
-    );
-  }
 }

@@ -20,5 +20,15 @@ void main() {
 
       expect(sign, '\$');
     });
+
+    test('Find hint text from title', () {
+      late String hintText;
+      const title = 'transportation';
+      const locale = 'en';
+
+      hintText = findHintText(title, locale);
+
+      expect(hintText, 'e.g., Gasoline, Public transport');
+    });
   });
 }
