@@ -56,9 +56,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                     var length = data.length;
 
                     return FilledButton.icon(
-                      onPressed: () => nav.pushNamed('/expenses',
-                          arguments:
-                              ExpensesArgs(currencyCode: widget.currencyCode)),
+                      onPressed: () => nav.pushNamed(
+                        '/expenses',
+                        arguments:
+                            ExpensesArgs(currencyCode: widget.currencyCode),
+                      ),
                       icon: Text('$length'),
                       label: const Text('Expenses'),
                     );
@@ -82,7 +84,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                     var length = data.length;
 
                     return FilledButton.icon(
-                      onPressed: () {},
+                      onPressed: () => nav.pushNamed(
+                        '/installments',
+                        arguments:
+                            InstallmentsArgs(currencyCode: widget.currencyCode),
+                      ),
                       icon: Text('$length'),
                       label: const Text('Installments'),
                     );

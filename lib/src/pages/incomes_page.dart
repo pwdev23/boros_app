@@ -117,9 +117,8 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
           error: (_, __) => const Center(
             child: Text('Failed to load'),
           ),
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
+          loading: () =>
+              const Center(child: CircularProgressIndicator.adaptive()),
         ),
       ),
     );

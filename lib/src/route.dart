@@ -21,8 +21,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case '/add-debt':
       return MaterialPageRoute(builder: (_) => const AddDebtPage());
     case '/add-expense':
-      return MaterialPageRoute(
-          builder: (_) => const AddExpensePage());
+      return MaterialPageRoute(builder: (_) => const AddExpensePage());
     case '/add-installment':
       final args = settings.arguments as AddInstallmentArgs;
       return MaterialPageRoute(
@@ -33,7 +32,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (_) => ExpensesPage(currencyCode: args.currencyCode));
     case '/installments':
-      return MaterialPageRoute(builder: (_) => const InstallmentsPage());
+      final args = settings.arguments as InstallmentsArgs;
+      return MaterialPageRoute(
+          builder: (_) => InstallmentsPage(currencyCode: args.currencyCode));
     default:
       return MaterialPageRoute(
         builder: (_) => Scaffold(
