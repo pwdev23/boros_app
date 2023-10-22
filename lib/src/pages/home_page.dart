@@ -155,11 +155,12 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   void _onSpeedDial(String dial) {
     final nav = Navigator.of(context);
-    const args = AddInstallmentArgs('main');
+    const installmentArgs = AddInstallmentArgs('main');
+    const debtArgs = AddDebtArgs('main');
 
     switch (dial) {
       case 'Installment':
-        nav.pushNamed('/add-installment', arguments: args);
+        nav.pushNamed('/add-installment', arguments: installmentArgs);
         break;
       case 'Income':
         nav.pushNamed('/add-income');
@@ -168,7 +169,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         nav.pushNamed('/add-expense');
         break;
       case 'Debt':
-        nav.pushNamed('/add-debt');
+        nav.pushNamed('/add-debt', arguments: debtArgs);
         break;
       default:
         return;

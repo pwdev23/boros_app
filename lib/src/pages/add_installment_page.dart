@@ -184,7 +184,7 @@ class _AddInstallmentPageState extends ConsumerState<AddInstallmentPage>
       final m = _selectedDate.value.month;
       final y = _selectedDate.value.year;
       _dateController.text = '$d/$m/$y';
-      final snackBar = SnackBar(content: Text('Selected: $d/$m/$y'));
+      final snackBar = SnackBar(content: Text('Selected $d/$m/$y'));
       setState(() {});
       final messenger = ScaffoldMessenger.of(context);
       messenger.showSnackBar(snackBar);

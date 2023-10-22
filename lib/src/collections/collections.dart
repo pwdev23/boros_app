@@ -30,8 +30,6 @@ class Debt {
 
   String? title;
   double? amount;
-  double? interestRate;
-  double? minimumPayment;
   String? notes;
   DateTime? dueDate;
   DateTime? createdAt;

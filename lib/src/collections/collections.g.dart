@@ -2118,23 +2118,13 @@ const DebtSchema = CollectionSchema(
       name: r'dueDate',
       type: IsarType.dateTime,
     ),
-    r'interestRate': PropertySchema(
-      id: 3,
-      name: r'interestRate',
-      type: IsarType.double,
-    ),
-    r'minimumPayment': PropertySchema(
-      id: 4,
-      name: r'minimumPayment',
-      type: IsarType.double,
-    ),
     r'notes': PropertySchema(
-      id: 5,
+      id: 3,
       name: r'notes',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 6,
+      id: 4,
       name: r'title',
       type: IsarType.string,
     )
@@ -2183,10 +2173,8 @@ void _debtSerialize(
   writer.writeDouble(offsets[0], object.amount);
   writer.writeDateTime(offsets[1], object.createdAt);
   writer.writeDateTime(offsets[2], object.dueDate);
-  writer.writeDouble(offsets[3], object.interestRate);
-  writer.writeDouble(offsets[4], object.minimumPayment);
-  writer.writeString(offsets[5], object.notes);
-  writer.writeString(offsets[6], object.title);
+  writer.writeString(offsets[3], object.notes);
+  writer.writeString(offsets[4], object.title);
 }
 
 Debt _debtDeserialize(
@@ -2200,10 +2188,8 @@ Debt _debtDeserialize(
   object.createdAt = reader.readDateTimeOrNull(offsets[1]);
   object.dueDate = reader.readDateTimeOrNull(offsets[2]);
   object.id = id;
-  object.interestRate = reader.readDoubleOrNull(offsets[3]);
-  object.minimumPayment = reader.readDoubleOrNull(offsets[4]);
-  object.notes = reader.readStringOrNull(offsets[5]);
-  object.title = reader.readStringOrNull(offsets[6]);
+  object.notes = reader.readStringOrNull(offsets[3]);
+  object.title = reader.readStringOrNull(offsets[4]);
   return object;
 }
 
@@ -2221,12 +2207,8 @@ P _debtDeserializeProp<P>(
     case 2:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 3:
-      return (reader.readDoubleOrNull(offset)) as P;
-    case 4:
-      return (reader.readDoubleOrNull(offset)) as P;
-    case 5:
       return (reader.readStringOrNull(offset)) as P;
-    case 6:
+    case 4:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2589,162 +2571,6 @@ extension DebtQueryFilter on QueryBuilder<Debt, Debt, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> interestRateIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'interestRate',
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> interestRateIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'interestRate',
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> interestRateEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'interestRate',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> interestRateGreaterThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'interestRate',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> interestRateLessThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'interestRate',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> interestRateBetween(
-    double? lower,
-    double? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'interestRate',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> minimumPaymentIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'minimumPayment',
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> minimumPaymentIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'minimumPayment',
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> minimumPaymentEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'minimumPayment',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> minimumPaymentGreaterThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'minimumPayment',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> minimumPaymentLessThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'minimumPayment',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterFilterCondition> minimumPaymentBetween(
-    double? lower,
-    double? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'minimumPayment',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
   QueryBuilder<Debt, Debt, QAfterFilterCondition> notesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -3075,30 +2901,6 @@ extension DebtQuerySortBy on QueryBuilder<Debt, Debt, QSortBy> {
     });
   }
 
-  QueryBuilder<Debt, Debt, QAfterSortBy> sortByInterestRate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'interestRate', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterSortBy> sortByInterestRateDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'interestRate', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterSortBy> sortByMinimumPayment() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minimumPayment', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterSortBy> sortByMinimumPaymentDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minimumPayment', Sort.desc);
-    });
-  }
-
   QueryBuilder<Debt, Debt, QAfterSortBy> sortByNotes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'notes', Sort.asc);
@@ -3173,30 +2975,6 @@ extension DebtQuerySortThenBy on QueryBuilder<Debt, Debt, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Debt, Debt, QAfterSortBy> thenByInterestRate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'interestRate', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterSortBy> thenByInterestRateDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'interestRate', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterSortBy> thenByMinimumPayment() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minimumPayment', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QAfterSortBy> thenByMinimumPaymentDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'minimumPayment', Sort.desc);
-    });
-  }
-
   QueryBuilder<Debt, Debt, QAfterSortBy> thenByNotes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'notes', Sort.asc);
@@ -3241,18 +3019,6 @@ extension DebtQueryWhereDistinct on QueryBuilder<Debt, Debt, QDistinct> {
     });
   }
 
-  QueryBuilder<Debt, Debt, QDistinct> distinctByInterestRate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'interestRate');
-    });
-  }
-
-  QueryBuilder<Debt, Debt, QDistinct> distinctByMinimumPayment() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'minimumPayment');
-    });
-  }
-
   QueryBuilder<Debt, Debt, QDistinct> distinctByNotes(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -3290,18 +3056,6 @@ extension DebtQueryProperty on QueryBuilder<Debt, Debt, QQueryProperty> {
   QueryBuilder<Debt, DateTime?, QQueryOperations> dueDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dueDate');
-    });
-  }
-
-  QueryBuilder<Debt, double?, QQueryOperations> interestRateProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'interestRate');
-    });
-  }
-
-  QueryBuilder<Debt, double?, QQueryOperations> minimumPaymentProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'minimumPayment');
     });
   }
 
