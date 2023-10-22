@@ -137,11 +137,6 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
         children: [
           const BottomSheetHandle(),
           ListTile(
-            title: Text('$mMMMEEEEd, $hM'),
-            subtitle: const Text('Created at'),
-          ),
-          const Divider(height: 0.0),
-          ListTile(
             title: Text(currency.format(data.amount)),
             subtitle: const Text('Amount'),
           ),
@@ -149,6 +144,11 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
           ListTile(
             title: Text(data.title!),
             subtitle: const Text('Title'),
+          ),
+          const Divider(height: 0.0),
+          ListTile(
+            title: Text('$mMMMEEEEd, $hM'),
+            subtitle: const Text('Created at'),
           ),
         ],
       ),

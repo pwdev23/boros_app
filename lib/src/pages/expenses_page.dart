@@ -137,11 +137,6 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
         children: [
           const BottomSheetHandle(),
           ListTile(
-            title: Text('$mMMMEEEEd, $hM'),
-            subtitle: const Text('Created at'),
-          ),
-          const Divider(height: 0.0),
-          ListTile(
             title: Text(data.category!),
             subtitle: const Text('Category'),
           ),
@@ -154,6 +149,11 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
           ListTile(
             title: Text(data.title!),
             subtitle: const Text('Title'),
+          ),
+          const Divider(height: 0.0),
+          ListTile(
+            title: Text('$mMMMEEEEd, $hM'),
+            subtitle: const Text('Created at'),
           ),
           if (data.notes != 'n/a') const Divider(height: 0.0),
           if (data.notes != 'n/a')
