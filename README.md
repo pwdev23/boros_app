@@ -2,7 +2,7 @@
 
 <img src="images/icon.png" height="120">
 
-Monthly expense companion to track, budget, and reset.
+The simplest yet Expenses Tracker app that doesn't even require an internet connection.
 
 ## Getting started with Isar Database
 
