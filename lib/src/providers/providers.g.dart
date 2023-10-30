@@ -63,5 +63,19 @@ final debtsProvider = AutoDisposeFutureProvider<List<Debt>>.internal(
 );
 
 typedef DebtsRef = AutoDisposeFutureProviderRef<List<Debt>>;
+String _$idleMoneyHash() => r'8ec85206c2c1db6f5c4020ca1e4737b97baeaf7c';
+
+/// See also [idleMoney].
+@ProviderFor(idleMoney)
+final idleMoneyProvider = AutoDisposeFutureProvider<double>.internal(
+  idleMoney,
+  name: r'idleMoneyProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$idleMoneyHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef IdleMoneyRef = AutoDisposeFutureProviderRef<double>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

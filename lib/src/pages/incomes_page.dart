@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../collections/collections.dart' show Income;
-import '../providers/providers.dart' show incomesProvider;
+import '../providers/providers.dart' show incomesProvider, idleMoneyProvider;
 import '../shared/bottom_sheet_handle.dart';
 import '../shared/tiny_circle_border.dart';
 import '../utils.dart';
@@ -59,8 +59,10 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
                           content: Text('The data successfully deleted'));
 
                       await deleteIncomes(ids: _ids.toList());
-                      await Future.delayed(
-                              s, () => ref.invalidate(incomesProvider))
+                      await Future.delayed(s, () {
+                        ref.invalidate(incomesProvider);
+                        ref.invalidate(idleMoneyProvider);
+                      })
                           .then((_) => _ids.clear())
                           .then((_) => setState(() => _loading = false))
                           .then((_) => message.showSnackBar(snackBar));

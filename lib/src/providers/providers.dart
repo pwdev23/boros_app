@@ -29,3 +29,9 @@ Future<List<Debt>> debts(DebtsRef ref) async {
   final debtsCollection = await getDebts();
   return debtsCollection.where().findAll();
 }
+
+@riverpod
+Future<double> idleMoney(IdleMoneyRef ref) async {
+  final idleMoney = await getIdleMoney();
+  return idleMoney;
+}

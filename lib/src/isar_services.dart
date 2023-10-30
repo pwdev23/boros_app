@@ -64,6 +64,50 @@ Future<IsarCollection<Income>> getIncomes() async =>
       return isar.collection<Income>();
     });
 
+Future<double> getIdleMoney() async =>
+    await openIsarInstance().then((isar) async {
+      double idleMoney = 0;
+      final expensesCollection = await getExpenses();
+      final installmentsCollection = await getInstallments();
+      final debtsCollection = await getDebts();
+      final incomesCollection = await getIncomes();
+
+      final expenses = await expensesCollection.where().findAll();
+      final installments = await installmentsCollection.where().findAll();
+      final debts = await debtsCollection.where().findAll();
+      final incomes = await incomesCollection.where().findAll();
+
+      if (expenses.isNotEmpty) {
+        var sumExpenses = expenses
+            .map((e) => e.amount)
+            .reduce((value, element) => value! + element!);
+        idleMoney -= sumExpenses!;
+      }
+
+      if (installments.isNotEmpty) {
+        var sumInstallments = installments
+            .map((e) => e.amount)
+            .reduce((value, element) => value! + element!);
+        idleMoney -= sumInstallments!;
+      }
+
+      if (debts.isNotEmpty) {
+        var sumDebts = debts
+            .map((e) => e.amount)
+            .reduce((value, element) => value! + element!);
+        idleMoney -= sumDebts!;
+      }
+
+      if (incomes.isNotEmpty) {
+        var sumIncomes = incomes
+            .map((e) => e.amount)
+            .reduce((value, element) => value! + element!);
+        idleMoney += sumIncomes!;
+      }
+
+      return idleMoney;
+    });
+
 Future<Isar> openIsarInstance() async {
   if (Isar.instanceNames.isEmpty) {
     final dir = await getApplicationCacheDirectory();

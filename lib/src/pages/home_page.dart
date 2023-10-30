@@ -28,10 +28,15 @@ class _HomePageState extends ConsumerState<HomePage> {
     var installment = ref.watch(installmentsProvider);
     var debts = ref.watch(debtsProvider);
     var incomes = ref.watch(incomesProvider);
+    var idleMoney = ref.watch(idleMoneyProvider);
     final textTheme = Theme.of(context).textTheme;
     final nav = Navigator.of(context);
     final thisMonth = DateFormat.MMMM().format(_now);
     final colorScheme = Theme.of(context).colorScheme;
+    final currency = NumberFormat.currency(
+        locale: findLang(widget.currencyCode),
+        symbol: findSign(widget.currencyCode));
+    final compact = NumberFormat.compact(locale: findLang(widget.currencyCode));
 
     return Scaffold(
       appBar: AppBar(
@@ -40,6 +45,52 @@ class _HomePageState extends ConsumerState<HomePage> {
       ),
       body: ListView(
         children: [
+          idleMoney.when(
+            data: (data) => Text.rich(
+              TextSpan(
+                text: 'Idle money\n',
+                style: textTheme.titleSmall,
+                children: [
+                  TextSpan(
+                    text: findSign(widget.currencyCode),
+                    style: textTheme.bodyMedium,
+                  ),
+                  TextSpan(
+                    text: '${compact.format(data)}\n',
+                    style: textTheme.displaySmall,
+                  ),
+                  TextSpan(
+                    text: currency.format(data),
+                    style: textTheme.bodySmall,
+                  )
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            error: (_, __) => const SizedBox.shrink(),
+            loading: () => Text.rich(
+              TextSpan(
+                text: 'Idle money\n',
+                style: textTheme.titleSmall,
+                children: [
+                  TextSpan(
+                    text: findSign(widget.currencyCode),
+                    style: textTheme.bodyMedium,
+                  ),
+                  TextSpan(
+                    text: '${compact.format(0)}\n',
+                    style: textTheme.displaySmall,
+                  ),
+                  TextSpan(
+                    text: currency.format(0),
+                    style: textTheme.bodySmall,
+                  )
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 16.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Wrap(

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../collections/collections.dart' show Debt;
 import '../isar_services.dart' show deleteDebts;
-import '../providers/providers.dart' show debtsProvider;
+import '../providers/providers.dart' show debtsProvider, idleMoneyProvider;
 import '../shared/bottom_sheet_handle.dart';
 import '../shared/tiny_circle_border.dart';
 import '../utils.dart';
@@ -60,8 +60,10 @@ class _DebtsPageState extends ConsumerState<DebtsPage> {
                           content: Text('The data successfully deleted'));
 
                       await deleteDebts(ids: _ids.toList());
-                      await Future.delayed(
-                              s, () => ref.invalidate(debtsProvider))
+                      await Future.delayed(s, () {
+                        ref.invalidate(debtsProvider);
+                        ref.invalidate(idleMoneyProvider);
+                      })
                           .then((_) => _ids.clear())
                           .then((_) => setState(() => _loading = false))
                           .then((_) => message.showSnackBar(snackBar));
