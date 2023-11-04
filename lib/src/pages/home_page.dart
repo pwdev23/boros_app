@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 
+import '../common.dart';
 import '../providers/providers.dart';
 import '../utils.dart';
 import 'pages.dart';
@@ -19,11 +19,12 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  final _speedDials = ['Installment', 'Income', 'Expense', 'Debt'];
+  final _speedDials = ['installment', 'income', 'expense', 'debt'];
   final _now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     var expenses = ref.watch(expensesProvider);
     var installment = ref.watch(installmentsProvider);
     var debts = ref.watch(debtsProvider);
@@ -48,7 +49,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           idleMoney.when(
             data: (data) => Text.rich(
               TextSpan(
-                text: 'Idle money\n',
+                text: '${l10n.idleMoney}\n',
                 style: textTheme.titleSmall,
                 children: [
                   TextSpan(
@@ -70,7 +71,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             error: (_, __) => const SizedBox.shrink(),
             loading: () => Text.rich(
               TextSpan(
-                text: 'Idle money\n',
+                text: '${l10n.idleMoney}\n',
                 style: textTheme.titleSmall,
                 children: [
                   TextSpan(
@@ -107,7 +108,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           '/incomes',
                           arguments: args,
                         ),
-                        title: 'Incomes',
+                        title: l10n.incomes,
                         backgroundColor: colorScheme.primaryContainer,
                         foregroundColor: colorScheme.onPrimaryContainer,
                         length: 0,
@@ -126,7 +127,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         '/incomes',
                         arguments: args,
                       ),
-                      title: 'Incomes',
+                      title: l10n.incomes,
                       backgroundColor: colorScheme.primaryContainer,
                       foregroundColor: colorScheme.onPrimaryContainer,
                       length: length,
@@ -147,7 +148,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           '/expenses',
                           arguments: args,
                         ),
-                        title: 'Expenses',
+                        title: l10n.expenses,
                         backgroundColor: colorScheme.tertiaryContainer,
                         foregroundColor: colorScheme.onTertiaryContainer,
                         length: 0,
@@ -166,7 +167,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         '/expenses',
                         arguments: args,
                       ),
-                      title: 'Expenses',
+                      title: l10n.expenses,
                       backgroundColor: colorScheme.tertiaryContainer,
                       foregroundColor: colorScheme.onTertiaryContainer,
                       length: length,
@@ -188,7 +189,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           '/installments',
                           arguments: args,
                         ),
-                        title: 'Installments',
+                        title: l10n.installments,
                         backgroundColor: colorScheme.secondary,
                         foregroundColor: colorScheme.onSecondary,
                         length: 0,
@@ -207,7 +208,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         '/installments',
                         arguments: args,
                       ),
-                      title: 'Installments',
+                      title: l10n.installments,
                       backgroundColor: colorScheme.secondary,
                       foregroundColor: colorScheme.onSecondary,
                       length: length,
@@ -228,7 +229,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           '/debts',
                           arguments: args,
                         ),
-                        title: 'Debts',
+                        title: l10n.debts,
                         backgroundColor: colorScheme.surfaceVariant,
                         foregroundColor: colorScheme.onSurfaceVariant,
                         length: 0,
@@ -247,7 +248,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         '/debts',
                         arguments: args,
                       ),
-                      title: 'Debts',
+                      title: l10n.debts,
                       backgroundColor: colorScheme.surfaceVariant,
                       foregroundColor: colorScheme.onSurfaceVariant,
                       length: length,
@@ -269,7 +270,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         spacing: 5.0,
         children: _speedDials
             .map((e) => SpeedDialChild(
-                  label: e,
+                  label: t(e),
                   labelStyle: textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.normal,
                   ),
@@ -305,6 +306,23 @@ class _HomePageState extends ConsumerState<HomePage> {
         break;
       default:
         return;
+    }
+  }
+
+  String t(String title) {
+    final t = AppLocalizations.of(context)!;
+
+    switch (title) {
+      case 'income':
+        return t.income;
+      case 'installment':
+        return t.installment;
+      case 'expense':
+        return t.expense;
+      case 'debt':
+        return t.debt;
+      default:
+        return 'n/a';
     }
   }
 }

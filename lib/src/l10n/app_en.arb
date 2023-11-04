@@ -6,5 +6,125 @@
     "setCurrency": "Set currency",
     "@setCurrency": {
         "description": "A title for currency page"
+    },
+    "idleMoney": "Idle money",
+    "@idleMoney": {
+        "description": "A text for idle money label"
+    },
+    "incomes": "Incomes",
+    "@incomes": {
+        "description": "A text for incomes label"
+    },
+    "expenses": "Expenses",
+    "@expenses": {
+        "description": "A text for expenses label"
+    },
+    "installments": "Installments",
+    "@installments": {
+        "description": "A text for installments label"
+    },
+    "debts": "Debts",
+    "@debts": {
+        "description": "A text for debts label"
+    },
+    "essential": "Essential & Utilities",
+    "@essential": {
+        "description": "A text for essential & utilities label"
+    },
+    "entertainment": "Entertainment",
+    "@entertainment": {
+        "description": "A text for entertainment label"
+    },
+    "housing": "Housing",
+    "@housing": {
+        "description": "A text for housing label"
+    },
+    "transportation": "Transportation",
+    "@transportation": {
+        "description": "A text for transportation label"
+    },
+    "healthcare": "Healthcare",
+    "@healthcare": {
+        "description": "A text for healthcare label"
+    },
+    "education": "Education",
+    "@education": {
+        "description": "A text for education label"
+    },
+    "savings": "Savings",
+    "@savings": {
+        "description": "A text for savings label"
+    },
+    "personalCare": "Personal care",
+    "@personalCare": {
+        "description": "A text for personal care label"
+    },
+    "travel": "Travel",
+    "@travel": {
+        "description": "A text for travel label"
+    },
+    "gifts": "Gifts & Donations",
+    "@gifts": {
+        "description": "A text for gifts & donations label"
+    },
+    "misc": "Miscellaneous",
+    "@misc": {
+        "description": "A text for miscellaneous label"
+    },
+    "amount": "Amount",
+    "@amount": {
+        "description": "A text for amount label"
+    },
+    "dueDate": "Due date",
+    "@dueDate": {
+        "description": "A text for due date label"
+    },
+    "notes": "Notes",
+    "@notes": {
+        "description": "A text for notes label"
+    },
+    "title": "title",
+    "@title": {
+        "description": "A text for title label"
+    },
+    "selectCategory": "Select a category",
+    "@selectCategory": {
+        "description": "A text for select category label"
+    },
+    "addExpense": "Add expense",
+    "@addExpense": {
+        "description": "A title for add expense page"
+    },
+    "addIncome": "Add income",
+    "@addIncome": {
+        "description": "A title for add income page"
+    },
+    "addInstallment": "Add installment",
+    "@addInstallment": {
+        "description": "A title for add installment page"
+    },
+    "addDebt": "Add debt",
+    "@addDebt": {
+        "description": "A title for add debt page"
+    },
+    "createdAt": "Created at",
+    "@createdAt": {
+        "description": "A title for created at page"
+    },
+    "income": "Income",
+    "@income": {
+        "description": "A label for income button"
+    },
+    "expense": "Expense",
+    "@expense": {
+        "description": "A label for expense button"
+    },
+    "installment": "Installment",
+    "@installment": {
+        "description": "A label for installment button"
+    },
+    "debt": "Debt",
+    "@debt": {
+        "description": "A label for debt button"
     }
 }

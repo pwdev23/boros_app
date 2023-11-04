@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../common.dart';
 import '../collections/collections.dart' show Debt;
 import '../isar_services.dart' show addDebt;
 
@@ -47,9 +47,11 @@ class _AddDebtPageState extends ConsumerState<AddDebtPage>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add debt'),
+        title: Text(l10n.addDebt),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -61,8 +63,8 @@ class _AddDebtPageState extends ConsumerState<AddDebtPage>
                 TextFormField(
                   controller: _dateController,
                   readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Due date',
+                  decoration: InputDecoration(
+                    labelText: l10n.dueDate,
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -76,10 +78,10 @@ class _AddDebtPageState extends ConsumerState<AddDebtPage>
                 const SizedBox(height: 8.0),
                 TextFormField(
                   controller: _amountController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     counterText: '',
                     hintText: '99999',
-                    labelText: 'Amount',
+                    labelText: l10n.amount,
                   ),
                   maxLength: 16,
                   keyboardType: TextInputType.number,
@@ -95,9 +97,9 @@ class _AddDebtPageState extends ConsumerState<AddDebtPage>
                 const SizedBox(height: 8.0),
                 TextFormField(
                   controller: _titleController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'e.g., Personal loan',
-                    labelText: 'Title',
+                    labelText: l10n.title,
                   ),
                   keyboardType: TextInputType.name,
                   onChanged: (value) {
@@ -112,7 +114,9 @@ class _AddDebtPageState extends ConsumerState<AddDebtPage>
                 const SizedBox(height: 8.0),
                 TextFormField(
                   controller: _notesController,
-                  decoration: const InputDecoration(labelText: 'Notes'),
+                  decoration: InputDecoration(
+                    labelText: l10n.notes,
+                  ),
                   keyboardType: TextInputType.multiline,
                 ),
               ],
@@ -124,7 +128,7 @@ class _AddDebtPageState extends ConsumerState<AddDebtPage>
                     _formKey.currentState!.validate()
                 ? () => _onAddDebt()
                 : null,
-            child: const Text('Add debt'),
+            child: Text(l10n.addDebt),
           ),
         ],
       ),

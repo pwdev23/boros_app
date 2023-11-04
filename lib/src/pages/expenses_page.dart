@@ -139,7 +139,7 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
         children: [
           const BottomSheetHandle(),
           ListTile(
-            title: Text(data.category!),
+            title: Text(t(context, data.category!)),
             subtitle: const Text('Category'),
           ),
           const Divider(height: 0.0),

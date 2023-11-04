@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../common.dart';
 import '../collections/collections.dart' show Debt;
 import '../isar_services.dart' show deleteDebts;
 import '../providers/providers.dart' show debtsProvider, idleMoneyProvider;
@@ -26,6 +26,7 @@ class _DebtsPageState extends ConsumerState<DebtsPage> {
   bool _loading = false;
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final debts = ref.watch(debtsProvider);
     final colorScheme = Theme.of(context).colorScheme;
     final nav = Navigator.of(context);
@@ -39,7 +40,7 @@ class _DebtsPageState extends ConsumerState<DebtsPage> {
       onWillPop: () => Future.value(!_loading),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Debts'),
+          title: Text(l10n.debts),
           actions: [
             if (_ids.isNotEmpty) TinyCircleBorder(text: '${_ids.length}'),
             _ids.isEmpty
@@ -126,6 +127,7 @@ class _DebtsPageState extends ConsumerState<DebtsPage> {
   }
 
   void _showDetails(Debt data) {
+    final l10n = AppLocalizations.of(context)!;
     final code = widget.currencyCode;
     final currency =
         NumberFormat.currency(locale: findLang(code), symbol: findSign(code));
@@ -143,22 +145,22 @@ class _DebtsPageState extends ConsumerState<DebtsPage> {
           const BottomSheetHandle(),
           ListTile(
             title: Text(mMMMEEEEd.format(data.dueDate!)),
-            subtitle: const Text('Due date'),
+            subtitle: Text(l10n.dueDate),
           ),
           const Divider(height: 0.0),
           ListTile(
             title: Text(currency.format(data.amount)),
-            subtitle: const Text('Amount'),
+            subtitle: Text(l10n.amount),
           ),
           const Divider(height: 0.0),
           ListTile(
             title: Text(data.title!),
-            subtitle: const Text('Title'),
+            subtitle: Text(l10n.title),
           ),
           const Divider(height: 0.0),
           ListTile(
             title: Text(createdAt),
-            subtitle: const Text('Created at'),
+            subtitle: Text(l10n.createdAt),
           ),
           const Divider(height: 0.0),
           if (data.notes != 'n/a') const Divider(height: 0.0),
@@ -172,7 +174,7 @@ class _DebtsPageState extends ConsumerState<DebtsPage> {
                     children: [
                       const SizedBox(height: 14.0),
                       Text(
-                        'Notes',
+                        l10n.notes,
                         style: textTheme.bodyLarge,
                       ),
                       Text(

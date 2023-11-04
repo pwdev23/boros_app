@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../common.dart';
 import '../collections/collections.dart' show Income;
 import '../isar_services.dart' show addIncome;
 
@@ -20,12 +20,13 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     const p = EdgeInsets.symmetric(horizontal: 16.0);
     const hintText = 'e.g., Freelance work, Salary';
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add income'),
+        title: Text(l10n.addIncome),
       ),
       body: ListView(
         physics: const NeverScrollableScrollPhysics(),
@@ -38,10 +39,10 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
                   padding: p,
                   child: TextFormField(
                     controller: _amountController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       counterText: '',
                       hintText: '99999',
-                      labelText: 'Amount',
+                      labelText: l10n.amount,
                     ),
                     maxLength: 16,
                     keyboardType: TextInputType.number,
@@ -60,9 +61,9 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
                   padding: p,
                   child: TextFormField(
                     controller: _titleController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: hintText,
-                      labelText: 'Title',
+                      labelText: l10n.title,
                     ),
                     keyboardType: TextInputType.name,
                     onChanged: (value) {
@@ -81,7 +82,7 @@ class _AddIncomePageState extends ConsumerState<AddIncomePage> {
                           _formKey.currentState!.validate()
                       ? () => _onAddIncome()
                       : null,
-                  child: const Text('Add income'),
+                  child: Text(l10n.addIncome),
                 ),
               ],
             ),

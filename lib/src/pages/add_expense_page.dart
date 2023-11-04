@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:boros_app/src/shared/info_text_box.dart';
 
+import '../common.dart';
 import '../collections/collections.dart' show Expense;
 import '../constants.dart' show kCategorySuggestions;
 import '../isar_services.dart' show addExpense;
@@ -15,7 +16,7 @@ class AddExpensePage extends StatefulWidget {
 }
 
 class _AddExpensePageState extends State<AddExpensePage> {
-  String _selectedCategory = 'n/a';
+  String _selectedCategory = 'essential-and-utilities';
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   final _titleController = TextEditingController();
@@ -33,16 +34,17 @@ class _AddExpensePageState extends State<AddExpensePage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     var locale = '${Localizations.localeOf(context)}';
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add expense'),
+        title: Text(l10n.addExpense),
       ),
       body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
-            child: Text('Choose a category', style: textTheme.titleMedium),
+            child: Text(l10n.selectCategory, style: textTheme.titleMedium),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -57,11 +59,13 @@ class _AddExpensePageState extends State<AddExpensePage> {
                         }
                         setState(() => _selectedCategory = '${e['title']}');
                       },
-                      label: Text('${e['title']}'),
+                      label: Text(t(context, '${e['title']}')),
                       selected: _selectedCategory == '${e['title']}'))
                   .toList(),
             ),
           ),
+          const SizedBox(height: 8.0),
+          InfoTextBox(text: findDesc(_selectedCategory, locale)),
           const SizedBox(height: 8.0),
           Form(
             key: _formKey,
@@ -72,8 +76,8 @@ class _AddExpensePageState extends State<AddExpensePage> {
                   TextFormField(
                     controller: _amountController,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: 'Amount',
+                    decoration: InputDecoration(
+                      labelText: l10n.amount,
                       counterText: '',
                       hintText: '99999',
                     ),
@@ -94,7 +98,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                     controller: _titleController,
                     keyboardType: TextInputType.name,
                     decoration: InputDecoration(
-                      labelText: 'Title',
+                      labelText: l10n.title,
                       hintText: _selectedCategory == 'n/a'
                           ? 'e.g., Internet bill, Dinner out'
                           : findHintText(_selectedCategory, locale),
@@ -113,9 +117,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
                   const SizedBox(height: 8.0),
                   TextFormField(
                     controller: _notesController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Bought groceries for the week',
-                      labelText: 'Notes',
+                      labelText: l10n.notes,
                     ),
                     keyboardType: TextInputType.multiline,
                     onChanged: (value) {
@@ -129,7 +133,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                             _selectedCategory != 'n/a'
                         ? () => _onAddExpense()
                         : null,
-                    child: const Text('Add expense'),
+                    child: Text(l10n.addExpense),
                   ),
                 ],
               ),

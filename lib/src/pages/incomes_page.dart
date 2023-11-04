@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../common.dart';
 import '../collections/collections.dart' show Income;
 import '../providers/providers.dart' show incomesProvider, idleMoneyProvider;
 import '../shared/bottom_sheet_handle.dart';
@@ -26,6 +26,7 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
     final incomes = ref.watch(incomesProvider);
     final currency = NumberFormat.currency(
@@ -37,7 +38,7 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
       onWillPop: () => Future.value(!_loading),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Incomes'),
+          title: Text(l10n.incomes),
           actions: [
             if (_ids.isNotEmpty) TinyCircleBorder(text: '${_ids.length}'),
             _ids.isEmpty
@@ -127,6 +128,7 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
   }
 
   void _showDetails(Income data) {
+    final l10n = AppLocalizations.of(context)!;
     final code = widget.currencyCode;
     final currency =
         NumberFormat.currency(locale: findLang(code), symbol: findSign(code));
@@ -140,17 +142,17 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
           const BottomSheetHandle(),
           ListTile(
             title: Text(currency.format(data.amount)),
-            subtitle: const Text('Amount'),
+            subtitle: Text(l10n.amount),
           ),
           const Divider(height: 0.0),
           ListTile(
             title: Text(data.title!),
-            subtitle: const Text('Title'),
+            subtitle: Text(l10n.title),
           ),
           const Divider(height: 0.0),
           ListTile(
             title: Text('$mMMMEEEEd, $hM'),
-            subtitle: const Text('Created at'),
+            subtitle: Text(l10n.createdAt),
           ),
         ],
       ),
