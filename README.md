@@ -4,6 +4,8 @@
 
 The simplest yet Expenses Tracker app that doesn't even require an internet connection.
 
+<img src="https://i.ibb.co/9psFPwX/IMG-20231104-152818.png">
+
 ## Getting started with Isar Database
 
 This app is utilizing the Isar Database, here is the resource to get started with it:
