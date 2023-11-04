@@ -61,7 +61,10 @@ class _HomePageState extends ConsumerState<HomePage> {
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               _getDay(v.toInt()),
-              style: textTheme.bodySmall!.copyWith(color: colorScheme.surface),
+              style: textTheme.bodySmall!.copyWith(
+                  color: v.toInt() == 0
+                      ? colorScheme.onPrimary
+                      : colorScheme.surface),
             ),
           ),
         ),
@@ -120,14 +123,15 @@ class _HomePageState extends ConsumerState<HomePage> {
               textAlign: TextAlign.center,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-            child: Text(
-              'My expenses this week',
-              style:
-                  textTheme.titleMedium!.copyWith(color: colorScheme.onSurface),
+          if (weekExpenses.hasValue)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              child: Text(
+                l10n.myExpenses,
+                style: textTheme.titleMedium!
+                    .copyWith(color: colorScheme.onSurface),
+              ),
             ),
-          ),
           weekExpenses.when(
             data: (data) => Container(
               margin: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -398,21 +402,23 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   String _getDay(int id) {
+    final t = AppLocalizations.of(context)!;
+
     switch (id) {
       case 0:
-        return 'Mon';
+        return t.sun;
       case 1:
-        return 'Tue';
+        return t.mon;
       case 2:
-        return 'Wed';
+        return t.tue;
       case 3:
-        return 'Thu';
+        return t.wed;
       case 4:
-        return 'Fri';
+        return t.thu;
       case 5:
-        return 'Sat';
+        return t.fri;
       case 6:
-        return 'Sun';
+        return t.sat;
       default:
         return 'n/a';
     }

@@ -30,5 +30,13 @@
     "income": "Pendapatan",
     "expense": "Pengeluaran",
     "installment": "Cicilan",
-    "debt": "Hutang"
+    "debt": "Hutang",
+    "myExpenses": "Pengeluaranku minggu ini",
+    "mon": "Sen",
+    "tue": "Sel",
+    "wed": "Rab",
+    "thu": "Kam",
+    "fri": "Jum",
+    "sat": "Sab",
+    "sun": "Min"
 }

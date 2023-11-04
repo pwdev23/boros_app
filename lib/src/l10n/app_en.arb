@@ -126,5 +126,37 @@
     "debt": "Debt",
     "@debt": {
         "description": "A label for debt button"
+    },
+    "myExpenses": "My expenses this week",
+    "@myExpenses": {
+        "description": "A title for my expenses"
+    },
+    "mon": "Mon",
+    "@mon": {
+        "description": "A label for monday abbreviation"
+    },
+    "tue": "Tue",
+    "@tue": {
+        "description": "A label for tuesday abbreviation"
+    },
+    "wed": "Wed",
+    "@wed": {
+        "description": "A label for wednesday abbreviation"
+    },
+    "thu": "Thu",
+    "@thu": {
+        "description": "A label for thursday abbreviation"
+    },
+    "fri": "Fri",
+    "@fri": {
+        "description": "A label for friday abbreviation"
+    },
+    "sat": "Sat",
+    "@sat": {
+        "description": "A label for saturday abbreviation"
+    },
+    "sun": "Sun",
+    "@sun": {
+        "description": "A label for sunday abbreviation"
     }
 }

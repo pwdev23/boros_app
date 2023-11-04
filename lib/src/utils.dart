@@ -91,7 +91,7 @@ String t(BuildContext context, String title) {
 
 List<Map<String, dynamic>> getCurrentWeekExpenses(List<Expense> expenses) {
   final now = DateTime.now();
-  final mon = now.subtract(Duration(days: now.weekday - 1));
+  final mon = now.subtract(Duration(days: now.weekday));
   final currentWeekExpenses = List.generate(7, (int i) {
     var data = {'id': i,'date': mon.add(Duration(days: i)), 'amount': 0};
     return data;
