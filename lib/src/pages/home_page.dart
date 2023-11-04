@@ -40,6 +40,33 @@ class _HomePageState extends ConsumerState<HomePage> {
         symbol: findSign(widget.currencyCode));
     final compact = NumberFormat.compact(locale: findLang(widget.currencyCode));
     final weekExpenses = ref.watch(weekExpensesProvider);
+    var flTitlesData = FlTitlesData(
+      leftTitles: AxisTitles(
+        sideTitles: SideTitles(
+          reservedSize: 44,
+          showTitles: true,
+          getTitlesWidget: (v, _) => Text(
+            compact.format(v),
+            style: textTheme.bodySmall!.copyWith(color: colorScheme.surface),
+          ),
+        ),
+      ),
+      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      bottomTitles: AxisTitles(
+        sideTitles: SideTitles(
+          reservedSize: 30,
+          showTitles: true,
+          getTitlesWidget: (v, _) => Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              _getDay(v.toInt()),
+              style: textTheme.bodySmall!.copyWith(color: colorScheme.surface),
+            ),
+          ),
+        ),
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -93,26 +120,49 @@ class _HomePageState extends ConsumerState<HomePage> {
               textAlign: TextAlign.center,
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+            child: Text(
+              'My expenses this week',
+              style:
+                  textTheme.titleMedium!.copyWith(color: colorScheme.onSurface),
+            ),
+          ),
           weekExpenses.when(
-            data: (data) => SizedBox(
+            data: (data) => Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: colorScheme.primary,
+              ),
               height: 240.0,
               child: BarChart(
                 BarChartData(
-                    barGroups: data
-                        .map((e) => BarChartGroupData(
-                              x: 0,
-                              barRods: <BarChartRodData>[
-                                BarChartRodData(
-                                  toY: double.parse('${e['amount']}'),
-                                )
-                              ],
-                            ))
-                        .toList()),
+                  backgroundColor: colorScheme.primary,
+                  barGroups: data
+                      .map((e) => BarChartGroupData(
+                            x: int.parse('${e['id']}'),
+                            barRods: <BarChartRodData>[
+                              BarChartRodData(
+                                toY: double.parse('${e['amount']}'),
+                                color: colorScheme.surface,
+                                borderRadius: BorderRadius.zero,
+                              )
+                            ],
+                          ))
+                      .toList(),
+                  titlesData: flTitlesData,
+                  borderData: FlBorderData(show: false),
+                ),
+                swapAnimationDuration: const Duration(milliseconds: 800),
+                swapAnimationCurve: Curves.easeInOut,
               ),
             ),
             error: (error, stackTrace) => Text('$error'),
             loading: () => const SizedBox.shrink(),
           ),
+          const SizedBox(height: 16.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Wrap(
@@ -342,6 +392,27 @@ class _HomePageState extends ConsumerState<HomePage> {
         return t.expense;
       case 'debt':
         return t.debt;
+      default:
+        return 'n/a';
+    }
+  }
+
+  String _getDay(int id) {
+    switch (id) {
+      case 0:
+        return 'Mon';
+      case 1:
+        return 'Tue';
+      case 2:
+        return 'Wed';
+      case 3:
+        return 'Thu';
+      case 4:
+        return 'Fri';
+      case 5:
+        return 'Sat';
+      case 6:
+        return 'Sun';
       default:
         return 'n/a';
     }
