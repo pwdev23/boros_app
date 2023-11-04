@@ -77,5 +77,21 @@ final idleMoneyProvider = AutoDisposeFutureProvider<double>.internal(
 );
 
 typedef IdleMoneyRef = AutoDisposeFutureProviderRef<double>;
+String _$weekExpensesHash() => r'eda86f28ad602535003223b09cb70eba83d03c4f';
+
+/// See also [weekExpenses].
+@ProviderFor(weekExpenses)
+final weekExpensesProvider =
+    AutoDisposeFutureProvider<List<Map<String, dynamic>>>.internal(
+  weekExpenses,
+  name: r'weekExpensesProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$weekExpensesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef WeekExpensesRef
+    = AutoDisposeFutureProviderRef<List<Map<String, dynamic>>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

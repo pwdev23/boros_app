@@ -102,7 +102,10 @@ List<Map<String, dynamic>> getCurrentWeekExpenses(List<Expense> expenses) {
     var date = DateTime.parse(string);
     for (var e in expenses) {
       if (isSameDay(e.createdAt!, date)) {
-        currentWeekExpenses[i].update('amount', (value) => e.amount!);
+        final str = '${currentWeekExpenses[i]['amount']}';
+        var amount = double.parse(str);
+        amount += e.amount!;
+        currentWeekExpenses[i].update('amount', (value) => amount);
       }
     }
   }

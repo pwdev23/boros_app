@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../collections/collections.dart';
 import '../isar_services.dart';
+import '../utils.dart' show getCurrentWeekExpenses;
 
 part 'providers.g.dart';
 
@@ -34,4 +35,13 @@ Future<List<Debt>> debts(DebtsRef ref) async {
 Future<double> idleMoney(IdleMoneyRef ref) async {
   final idleMoney = await getIdleMoney();
   return idleMoney;
+}
+
+@riverpod
+Future<List<Map<String, dynamic>>> weekExpenses(WeekExpensesRef ref) async {
+  late List<Map<String, dynamic>> weekExpenses;
+  final expensesCollection = await getExpenses();
+  final expenses = await expensesCollection.where().findAll();
+  weekExpenses = getCurrentWeekExpenses(expenses);
+  return weekExpenses;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import '../common.dart';
 import '../providers/providers.dart';
@@ -38,6 +39,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         locale: findLang(widget.currencyCode),
         symbol: findSign(widget.currencyCode));
     final compact = NumberFormat.compact(locale: findLang(widget.currencyCode));
+    final weekExpenses = ref.watch(weekExpensesProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +93,26 @@ class _HomePageState extends ConsumerState<HomePage> {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 32.0),
+          weekExpenses.when(
+            data: (data) => SizedBox(
+              height: 240.0,
+              child: BarChart(
+                BarChartData(
+                    barGroups: data
+                        .map((e) => BarChartGroupData(
+                              x: 0,
+                              barRods: <BarChartRodData>[
+                                BarChartRodData(
+                                  toY: double.parse('${e['amount']}'),
+                                )
+                              ],
+                            ))
+                        .toList()),
+              ),
+            ),
+            error: (error, stackTrace) => Text('$error'),
+            loading: () => const SizedBox.shrink(),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Wrap(
