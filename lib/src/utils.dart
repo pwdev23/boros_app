@@ -1,3 +1,4 @@
+import 'collections/collections.dart' show Expense;
 import 'common.dart';
 import 'currency_code.dart';
 import 'constants.dart' show kCategorySuggestions;
@@ -86,4 +87,30 @@ String t(BuildContext context, String title) {
     default:
       return 'n/a';
   }
+}
+
+List<Map<String, dynamic>> getCurrentWeekExpenses(List<Expense> expenses) {
+  final now = DateTime.now();
+  final mon = now.subtract(Duration(days: now.weekday - 1));
+  final currentWeekExpenses = List.generate(7, (int i) {
+    var data = {'date': mon.add(Duration(days: i)), 'amount': 0};
+    return data;
+  });
+
+  for (var i = 0; i < currentWeekExpenses.length; i++) {
+    String string = '${currentWeekExpenses[i]['date']}';
+    var date = DateTime.parse(string);
+    for (var e in expenses) {
+      if (isSameDay(e.createdAt!, date)) {
+        currentWeekExpenses[i].update('amount', (value) => e.amount!);
+      }
+    }
+  }
+  return currentWeekExpenses;
+}
+
+bool isSameDay(DateTime dateA, DateTime dateB) {
+  return dateA.year == dateB.year &&
+      dateA.month == dateB.month &&
+      dateA.day == dateB.day;
 }

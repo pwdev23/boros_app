@@ -13,7 +13,6 @@ class App extends StatelessWidget {
       onGenerateTitle: (context) => AppLocalizations.of(context)!.wasteful,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('id'),
       theme: theme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
