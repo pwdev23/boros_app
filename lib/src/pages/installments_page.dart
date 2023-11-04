@@ -78,7 +78,7 @@ class _InstallmentsPageState extends ConsumerState<InstallmentsPage> {
         body: installments.when(
           data: (data) {
             if (data.isEmpty) {
-              return const Center(child: Text('There\'s no installment yet'));
+              return Center(child: Text(l10n.noInstallment));
             }
 
             return Stack(

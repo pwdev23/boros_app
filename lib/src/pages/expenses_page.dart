@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../common.dart';
 import '../collections/collections.dart' show Expense;
 import '../isar_services.dart' show deleteExpenses;
 import '../providers/providers.dart' show expensesProvider, idleMoneyProvider;
@@ -26,6 +26,7 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
     final currency = NumberFormat.currency(
       locale: findLang(widget.currencyCode),
@@ -38,7 +39,7 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
       onWillPop: () => Future.value(!_loading),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Expenses'),
+          title: Text(l10n.expenses),
           actions: [
             if (_ids.isNotEmpty) TinyCircleBorder(text: '${_ids.length}'),
             _ids.isEmpty
@@ -72,7 +73,7 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
         body: expenses.when(
           data: (data) {
             if (data.isEmpty) {
-              return const Center(child: Text('There\'s no expenses'));
+              return Center(child: Text(l10n.noExpense));
             }
 
             return Stack(
@@ -125,6 +126,7 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
   }
 
   void _showDetails(Expense data) {
+    final l10n = AppLocalizations.of(context)!;
     final code = widget.currencyCode;
     final currency =
         NumberFormat.currency(locale: findLang(code), symbol: findSign(code));
@@ -140,22 +142,22 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
           const BottomSheetHandle(),
           ListTile(
             title: Text(t(context, data.category!)),
-            subtitle: const Text('Category'),
+            subtitle: Text(l10n.category),
           ),
           const Divider(height: 0.0),
           ListTile(
             title: Text(currency.format(data.amount)),
-            subtitle: const Text('Amount'),
+            subtitle: Text(l10n.amount),
           ),
           const Divider(height: 0.0),
           ListTile(
             title: Text(data.title!),
-            subtitle: const Text('Title'),
+            subtitle: Text(l10n.title),
           ),
           const Divider(height: 0.0),
           ListTile(
             title: Text('$mMMMEEEEd, $hM'),
-            subtitle: const Text('Created at'),
+            subtitle: Text(l10n.createdAt),
           ),
           if (data.notes != 'n/a') const Divider(height: 0.0),
           if (data.notes != 'n/a')
@@ -168,7 +170,7 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
                     children: [
                       const SizedBox(height: 14.0),
                       Text(
-                        'Notes',
+                        l10n.notes,
                         style: textTheme.bodyLarge,
                       ),
                       Text(

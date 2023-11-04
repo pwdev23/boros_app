@@ -76,7 +76,7 @@ class _DebtsPageState extends ConsumerState<DebtsPage> {
         body: debts.when(
           data: (data) {
             if (data.isEmpty) {
-              return const Center(child: Text('There\'s no debt yet'));
+              return Center(child: Text(l10n.noDebt));
             }
 
             return Stack(

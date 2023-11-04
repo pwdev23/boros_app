@@ -75,7 +75,7 @@ class _IncomesPageState extends ConsumerState<IncomesPage> {
         body: incomes.when(
           data: (data) {
             if (data.isEmpty) {
-              return const Center(child: Text('There\'s no income yet'));
+              return Center(child: Text(l10n.noIncome));
             }
 
             return Stack(

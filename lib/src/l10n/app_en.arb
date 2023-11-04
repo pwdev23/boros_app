@@ -158,5 +158,29 @@
     "sun": "Sun",
     "@sun": {
         "description": "A label for sunday abbreviation"
+    },
+    "lackOfFunds": "Lack of funds",
+    "@lackOfFunds": {
+        "description": "A title for the lack of funds"
+    },
+    "noDebt": "There's no debt yet",
+    "@noDebt": {
+        "description": "A text for no debt yet subtitle"
+    },
+    "noIncome": "There's no income yet",
+    "@noIncome": {
+        "description": "A text for no income yet subtitle"
+    },
+    "noInstallment": "There's no installment yet",
+    "@noInstallment": {
+        "description": "A text for no installment subtitle"
+    },
+    "noExpense": "There's no expense yet",
+    "@noExpense": {
+        "description": "A text for no expense subtitle"
+    },
+    "category": "Category",
+    "@category": {
+        "description": "A text for category label"
     }
 }

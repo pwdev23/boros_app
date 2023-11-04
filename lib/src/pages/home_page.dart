@@ -46,8 +46,9 @@ class _HomePageState extends ConsumerState<HomePage> {
           reservedSize: 44,
           showTitles: true,
           getTitlesWidget: (v, _) => Text(
-            compact.format(v),
+            '${findSign(widget.currencyCode)}${compact.format(v)}',
             style: textTheme.bodySmall!.copyWith(color: colorScheme.surface),
+            textAlign: TextAlign.right,
           ),
         ),
       ),
@@ -64,7 +65,9 @@ class _HomePageState extends ConsumerState<HomePage> {
               style: textTheme.bodySmall!.copyWith(
                   color: v.toInt() == 0
                       ? colorScheme.onPrimary
-                      : colorScheme.surface),
+                      : colorScheme.surface,
+                  fontWeight:
+                      v.toInt() == 0 ? FontWeight.bold : FontWeight.normal),
             ),
           ),
         ),
@@ -81,8 +84,11 @@ class _HomePageState extends ConsumerState<HomePage> {
           idleMoney.when(
             data: (data) => Text.rich(
               TextSpan(
-                text: '${l10n.idleMoney}\n',
-                style: textTheme.titleSmall,
+                text: data.isNegative
+                    ? '${l10n.lackOfFunds}\n'
+                    : '${l10n.idleMoney}\n',
+                style: textTheme.titleSmall!.copyWith(
+                    color: data.isNegative ? colorScheme.tertiary : null),
                 children: [
                   TextSpan(
                     text: findSign(widget.currencyCode),
@@ -90,7 +96,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                   TextSpan(
                     text: '${compact.format(data)}\n',
-                    style: textTheme.displaySmall,
+                    style: textTheme.displayMedium,
                   ),
                   TextSpan(
                     text: currency.format(data),
@@ -135,7 +141,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           weekExpenses.when(
             data: (data) => Container(
               margin: const EdgeInsets.symmetric(horizontal: 16.0),
-              padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 8.0),
+              padding: const EdgeInsets.fromLTRB(8.0, 32.0, 8.0, 8.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 color: colorScheme.primary,
@@ -337,6 +343,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               ],
             ),
           ),
+          const SizedBox(height: kToolbarHeight),
         ],
       ),
       floatingActionButton: SpeedDial(

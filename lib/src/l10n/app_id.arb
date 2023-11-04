@@ -38,5 +38,11 @@
     "thu": "Kam",
     "fri": "Jum",
     "sat": "Sab",
-    "sun": "Min"
+    "sun": "Min",
+    "lackOfFunds": "Kekurangan biaya",
+    "noDebt": "Belum ada hutang",
+    "noIncome": "Belum ada pendapatan",
+    "noInstallment": "Belum ada cicilan",
+    "noExpense": "Belum ada pengeluaran",
+    "category": "Kategori"
 }
