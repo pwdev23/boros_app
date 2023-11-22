@@ -203,7 +203,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     sum: 0,
                                     currencyCode: widget.currencyCode,
                                     width: null,
-                                    height: width * 0.45,
+                                    height: 155.0,
                                   ),
                                 );
                               }
@@ -226,7 +226,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   sum: sum!,
                                   currencyCode: widget.currencyCode,
                                   width: null,
-                                  height: width * 0.45,
+                                  height: 155.0,
                                 ),
                               );
                             },
@@ -255,7 +255,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     sum: 0,
                                     currencyCode: widget.currencyCode,
                                     width: null,
-                                    height: width * 0.45,
+                                    height: 155.0,
                                   ),
                                 );
                               }
@@ -279,7 +279,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   sum: sum!,
                                   currencyCode: widget.currencyCode,
                                   width: null,
-                                  height: width * 0.45,
+                                  height: 155.0,
                                 ),
                               );
                             },
@@ -310,7 +310,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     sum: 0,
                                     currencyCode: widget.currencyCode,
                                     width: null,
-                                    height: width * 0.45,
+                                    height: 155.0,
                                   ),
                                 );
                               }
@@ -332,7 +332,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   sum: sum!,
                                   currencyCode: widget.currencyCode,
                                   width: null,
-                                  height: width * 0.45,
+                                  height: 155.0,
                                 ),
                               );
                             },
@@ -359,7 +359,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     sum: 0,
                                     currencyCode: widget.currencyCode,
                                     width: null,
-                                    height: width * 0.45,
+                                    height: 155.0,
                                   ),
                                 );
                               }
@@ -381,7 +381,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   sum: sum!,
                                   currencyCode: widget.currencyCode,
                                   width: null,
-                                  height: width * 0.45,
+                                  height: 155.0,
                                 ),
                               );
                             },
