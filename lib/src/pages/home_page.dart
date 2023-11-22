@@ -73,6 +73,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       ),
     );
+    final double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -175,173 +176,391 @@ class _HomePageState extends ConsumerState<HomePage> {
           const SizedBox(height: 16.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Wrap(
-              spacing: 16.0,
-              runSpacing: 16.0,
-              children: [
-                incomes.when(
-                  data: (data) {
-                    var args = IncomesArgs(currencyCode: widget.currencyCode);
+            child: width <= 640
+                ? Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          incomes.when(
+                            data: (data) {
+                              var args = IncomesArgs(
+                                  currencyCode: widget.currencyCode);
 
-                    if (data.isEmpty) {
-                      return _CardButton(
-                        onPressed: () => nav.pushNamed(
-                          '/incomes',
-                          arguments: args,
-                        ),
-                        title: l10n.incomes,
-                        backgroundColor: colorScheme.primaryContainer,
-                        foregroundColor: colorScheme.onPrimaryContainer,
-                        length: 0,
-                        sum: 0,
-                        currencyCode: widget.currencyCode,
-                      );
-                    }
+                              if (data.isEmpty) {
+                                return Expanded(
+                                  child: _CardButton(
+                                    onPressed: () => nav.pushNamed(
+                                      '/incomes',
+                                      arguments: args,
+                                    ),
+                                    title: l10n.incomes,
+                                    backgroundColor:
+                                        colorScheme.primaryContainer,
+                                    foregroundColor:
+                                        colorScheme.onPrimaryContainer,
+                                    length: 0,
+                                    sum: 0,
+                                    currencyCode: widget.currencyCode,
+                                    width: null,
+                                    height: width * 0.45,
+                                  ),
+                                );
+                              }
 
-                    var length = data.length;
-                    var sum = data
-                        .map((e) => e.amount)
-                        .reduce((value, element) => value! + element!);
+                              var length = data.length;
+                              var sum = data.map((e) => e.amount).reduce(
+                                  (value, element) => value! + element!);
 
-                    return _CardButton(
-                      onPressed: () => nav.pushNamed(
-                        '/incomes',
-                        arguments: args,
+                              return Expanded(
+                                child: _CardButton(
+                                  onPressed: () => nav.pushNamed(
+                                    '/incomes',
+                                    arguments: args,
+                                  ),
+                                  title: l10n.incomes,
+                                  backgroundColor: colorScheme.primaryContainer,
+                                  foregroundColor:
+                                      colorScheme.onPrimaryContainer,
+                                  length: length,
+                                  sum: sum!,
+                                  currencyCode: widget.currencyCode,
+                                  width: null,
+                                  height: width * 0.45,
+                                ),
+                              );
+                            },
+                            error: (_, __) => const SizedBox.shrink(),
+                            loading: () => const SizedBox.shrink(),
+                          ),
+                          const SizedBox(width: 16.0),
+                          expenses.when(
+                            data: (data) {
+                              var args = ExpensesArgs(
+                                  currencyCode: widget.currencyCode);
+
+                              if (data.isEmpty) {
+                                return Expanded(
+                                  child: _CardButton(
+                                    onPressed: () => nav.pushNamed(
+                                      '/expenses',
+                                      arguments: args,
+                                    ),
+                                    title: l10n.expenses,
+                                    backgroundColor:
+                                        colorScheme.tertiaryContainer,
+                                    foregroundColor:
+                                        colorScheme.onTertiaryContainer,
+                                    length: 0,
+                                    sum: 0,
+                                    currencyCode: widget.currencyCode,
+                                    width: null,
+                                    height: width * 0.45,
+                                  ),
+                                );
+                              }
+
+                              var length = data.length;
+                              var sum = data.map((e) => e.amount).reduce(
+                                  (value, element) => value! + element!);
+
+                              return Expanded(
+                                child: _CardButton(
+                                  onPressed: () => nav.pushNamed(
+                                    '/expenses',
+                                    arguments: args,
+                                  ),
+                                  title: l10n.expenses,
+                                  backgroundColor:
+                                      colorScheme.tertiaryContainer,
+                                  foregroundColor:
+                                      colorScheme.onTertiaryContainer,
+                                  length: length,
+                                  sum: sum!,
+                                  currencyCode: widget.currencyCode,
+                                  width: null,
+                                  height: width * 0.45,
+                                ),
+                              );
+                            },
+                            error: (_, __) => const SizedBox.shrink(),
+                            loading: () => const SizedBox.shrink(),
+                          ),
+                        ],
                       ),
-                      title: l10n.incomes,
-                      backgroundColor: colorScheme.primaryContainer,
-                      foregroundColor: colorScheme.onPrimaryContainer,
-                      length: length,
-                      sum: sum!,
-                      currencyCode: widget.currencyCode,
-                    );
-                  },
-                  error: (_, __) => const SizedBox.shrink(),
-                  loading: () => const SizedBox.shrink(),
-                ),
-                expenses.when(
-                  data: (data) {
-                    var args = ExpensesArgs(currencyCode: widget.currencyCode);
+                      const SizedBox(height: 16.0),
+                      Row(
+                        children: [
+                          installment.when(
+                            data: (data) {
+                              var code = widget.currencyCode;
+                              var args = InstallmentsArgs(currencyCode: code);
 
-                    if (data.isEmpty) {
-                      return _CardButton(
-                        onPressed: () => nav.pushNamed(
-                          '/expenses',
-                          arguments: args,
-                        ),
-                        title: l10n.expenses,
-                        backgroundColor: colorScheme.tertiaryContainer,
-                        foregroundColor: colorScheme.onTertiaryContainer,
-                        length: 0,
-                        sum: 0,
-                        currencyCode: widget.currencyCode,
-                      );
-                    }
+                              if (data.isEmpty) {
+                                return Expanded(
+                                  child: _CardButton(
+                                    onPressed: () => nav.pushNamed(
+                                      '/installments',
+                                      arguments: args,
+                                    ),
+                                    title: l10n.installments,
+                                    backgroundColor: colorScheme.secondary,
+                                    foregroundColor: colorScheme.onSecondary,
+                                    length: 0,
+                                    sum: 0,
+                                    currencyCode: widget.currencyCode,
+                                    width: null,
+                                    height: width * 0.45,
+                                  ),
+                                );
+                              }
 
-                    var length = data.length;
-                    var sum = data
-                        .map((e) => e.amount)
-                        .reduce((value, element) => value! + element!);
+                              var length = data.length;
+                              var sum = data.map((e) => e.amount).reduce(
+                                  (value, element) => value! + element!);
 
-                    return _CardButton(
-                      onPressed: () => nav.pushNamed(
-                        '/expenses',
-                        arguments: args,
+                              return Expanded(
+                                child: _CardButton(
+                                  onPressed: () => nav.pushNamed(
+                                    '/installments',
+                                    arguments: args,
+                                  ),
+                                  title: l10n.installments,
+                                  backgroundColor: colorScheme.secondary,
+                                  foregroundColor: colorScheme.onSecondary,
+                                  length: length,
+                                  sum: sum!,
+                                  currencyCode: widget.currencyCode,
+                                  width: null,
+                                  height: width * 0.45,
+                                ),
+                              );
+                            },
+                            error: (_, __) => const SizedBox.shrink(),
+                            loading: () => const SizedBox.shrink(),
+                          ),
+                          const SizedBox(width: 16.0),
+                          debts.when(
+                            data: (data) {
+                              var code = widget.currencyCode;
+                              var args = DebtsArgs(currencyCode: code);
+                              if (data.isEmpty) {
+                                return Expanded(
+                                  child: _CardButton(
+                                    onPressed: () => nav.pushNamed(
+                                      '/debts',
+                                      arguments: args,
+                                    ),
+                                    title: l10n.debts,
+                                    backgroundColor: colorScheme.surfaceVariant,
+                                    foregroundColor:
+                                        colorScheme.onSurfaceVariant,
+                                    length: 0,
+                                    sum: 0,
+                                    currencyCode: widget.currencyCode,
+                                    width: null,
+                                    height: width * 0.45,
+                                  ),
+                                );
+                              }
+
+                              var length = data.length;
+                              var sum = data.map((e) => e.amount).reduce(
+                                  (value, element) => value! + element!);
+
+                              return Expanded(
+                                child: _CardButton(
+                                  onPressed: () => nav.pushNamed(
+                                    '/debts',
+                                    arguments: args,
+                                  ),
+                                  title: l10n.debts,
+                                  backgroundColor: colorScheme.surfaceVariant,
+                                  foregroundColor: colorScheme.onSurfaceVariant,
+                                  length: length,
+                                  sum: sum!,
+                                  currencyCode: widget.currencyCode,
+                                  width: null,
+                                  height: width * 0.45,
+                                ),
+                              );
+                            },
+                            error: (_, __) => const SizedBox.shrink(),
+                            loading: () => const SizedBox.shrink(),
+                          ),
+                        ],
                       ),
-                      title: l10n.expenses,
-                      backgroundColor: colorScheme.tertiaryContainer,
-                      foregroundColor: colorScheme.onTertiaryContainer,
-                      length: length,
-                      sum: sum!,
-                      currencyCode: widget.currencyCode,
-                    );
-                  },
-                  error: (_, __) => const SizedBox.shrink(),
-                  loading: () => const SizedBox.shrink(),
-                ),
-                installment.when(
-                  data: (data) {
-                    var code = widget.currencyCode;
-                    var args = InstallmentsArgs(currencyCode: code);
+                    ],
+                  )
+                : Wrap(
+                    spacing: 16.0,
+                    runSpacing: 16.0,
+                    children: [
+                      incomes.when(
+                        data: (data) {
+                          var args =
+                              IncomesArgs(currencyCode: widget.currencyCode);
 
-                    if (data.isEmpty) {
-                      return _CardButton(
-                        onPressed: () => nav.pushNamed(
-                          '/installments',
-                          arguments: args,
-                        ),
-                        title: l10n.installments,
-                        backgroundColor: colorScheme.secondary,
-                        foregroundColor: colorScheme.onSecondary,
-                        length: 0,
-                        sum: 0,
-                        currencyCode: widget.currencyCode,
-                      );
-                    }
+                          if (data.isEmpty) {
+                            return _CardButton(
+                              onPressed: () => nav.pushNamed(
+                                '/incomes',
+                                arguments: args,
+                              ),
+                              title: l10n.incomes,
+                              backgroundColor: colorScheme.primaryContainer,
+                              foregroundColor: colorScheme.onPrimaryContainer,
+                              length: 0,
+                              sum: 0,
+                              currencyCode: widget.currencyCode,
+                            );
+                          }
 
-                    var length = data.length;
-                    var sum = data
-                        .map((e) => e.amount)
-                        .reduce((value, element) => value! + element!);
+                          var length = data.length;
+                          var sum = data
+                              .map((e) => e.amount)
+                              .reduce((value, element) => value! + element!);
 
-                    return _CardButton(
-                      onPressed: () => nav.pushNamed(
-                        '/installments',
-                        arguments: args,
+                          return _CardButton(
+                            onPressed: () => nav.pushNamed(
+                              '/incomes',
+                              arguments: args,
+                            ),
+                            title: l10n.incomes,
+                            backgroundColor: colorScheme.primaryContainer,
+                            foregroundColor: colorScheme.onPrimaryContainer,
+                            length: length,
+                            sum: sum!,
+                            currencyCode: widget.currencyCode,
+                          );
+                        },
+                        error: (_, __) => const SizedBox.shrink(),
+                        loading: () => const SizedBox.shrink(),
                       ),
-                      title: l10n.installments,
-                      backgroundColor: colorScheme.secondary,
-                      foregroundColor: colorScheme.onSecondary,
-                      length: length,
-                      sum: sum!,
-                      currencyCode: widget.currencyCode,
-                    );
-                  },
-                  error: (_, __) => const SizedBox.shrink(),
-                  loading: () => const SizedBox.shrink(),
-                ),
-                debts.when(
-                  data: (data) {
-                    var code = widget.currencyCode;
-                    var args = DebtsArgs(currencyCode: code);
-                    if (data.isEmpty) {
-                      return _CardButton(
-                        onPressed: () => nav.pushNamed(
-                          '/debts',
-                          arguments: args,
-                        ),
-                        title: l10n.debts,
-                        backgroundColor: colorScheme.surfaceVariant,
-                        foregroundColor: colorScheme.onSurfaceVariant,
-                        length: 0,
-                        sum: 0,
-                        currencyCode: widget.currencyCode,
-                      );
-                    }
+                      expenses.when(
+                        data: (data) {
+                          var args =
+                              ExpensesArgs(currencyCode: widget.currencyCode);
 
-                    var length = data.length;
-                    var sum = data
-                        .map((e) => e.amount)
-                        .reduce((value, element) => value! + element!);
+                          if (data.isEmpty) {
+                            return _CardButton(
+                              onPressed: () => nav.pushNamed(
+                                '/expenses',
+                                arguments: args,
+                              ),
+                              title: l10n.expenses,
+                              backgroundColor: colorScheme.tertiaryContainer,
+                              foregroundColor: colorScheme.onTertiaryContainer,
+                              length: 0,
+                              sum: 0,
+                              currencyCode: widget.currencyCode,
+                            );
+                          }
 
-                    return _CardButton(
-                      onPressed: () => nav.pushNamed(
-                        '/debts',
-                        arguments: args,
+                          var length = data.length;
+                          var sum = data
+                              .map((e) => e.amount)
+                              .reduce((value, element) => value! + element!);
+
+                          return _CardButton(
+                            onPressed: () => nav.pushNamed(
+                              '/expenses',
+                              arguments: args,
+                            ),
+                            title: l10n.expenses,
+                            backgroundColor: colorScheme.tertiaryContainer,
+                            foregroundColor: colorScheme.onTertiaryContainer,
+                            length: length,
+                            sum: sum!,
+                            currencyCode: widget.currencyCode,
+                          );
+                        },
+                        error: (_, __) => const SizedBox.shrink(),
+                        loading: () => const SizedBox.shrink(),
                       ),
-                      title: l10n.debts,
-                      backgroundColor: colorScheme.surfaceVariant,
-                      foregroundColor: colorScheme.onSurfaceVariant,
-                      length: length,
-                      sum: sum!,
-                      currencyCode: widget.currencyCode,
-                    );
-                  },
-                  error: (_, __) => const SizedBox.shrink(),
-                  loading: () => const SizedBox.shrink(),
-                ),
-              ],
-            ),
+                      installment.when(
+                        data: (data) {
+                          var code = widget.currencyCode;
+                          var args = InstallmentsArgs(currencyCode: code);
+
+                          if (data.isEmpty) {
+                            return _CardButton(
+                              onPressed: () => nav.pushNamed(
+                                '/installments',
+                                arguments: args,
+                              ),
+                              title: l10n.installments,
+                              backgroundColor: colorScheme.secondary,
+                              foregroundColor: colorScheme.onSecondary,
+                              length: 0,
+                              sum: 0,
+                              currencyCode: widget.currencyCode,
+                            );
+                          }
+
+                          var length = data.length;
+                          var sum = data
+                              .map((e) => e.amount)
+                              .reduce((value, element) => value! + element!);
+
+                          return _CardButton(
+                            onPressed: () => nav.pushNamed(
+                              '/installments',
+                              arguments: args,
+                            ),
+                            title: l10n.installments,
+                            backgroundColor: colorScheme.secondary,
+                            foregroundColor: colorScheme.onSecondary,
+                            length: length,
+                            sum: sum!,
+                            currencyCode: widget.currencyCode,
+                          );
+                        },
+                        error: (_, __) => const SizedBox.shrink(),
+                        loading: () => const SizedBox.shrink(),
+                      ),
+                      debts.when(
+                        data: (data) {
+                          var code = widget.currencyCode;
+                          var args = DebtsArgs(currencyCode: code);
+                          if (data.isEmpty) {
+                            return _CardButton(
+                              onPressed: () => nav.pushNamed(
+                                '/debts',
+                                arguments: args,
+                              ),
+                              title: l10n.debts,
+                              backgroundColor: colorScheme.surfaceVariant,
+                              foregroundColor: colorScheme.onSurfaceVariant,
+                              length: 0,
+                              sum: 0,
+                              currencyCode: widget.currencyCode,
+                            );
+                          }
+
+                          var length = data.length;
+                          var sum = data
+                              .map((e) => e.amount)
+                              .reduce((value, element) => value! + element!);
+
+                          return _CardButton(
+                            onPressed: () => nav.pushNamed(
+                              '/debts',
+                              arguments: args,
+                            ),
+                            title: l10n.debts,
+                            backgroundColor: colorScheme.surfaceVariant,
+                            foregroundColor: colorScheme.onSurfaceVariant,
+                            length: length,
+                            sum: sum!,
+                            currencyCode: widget.currencyCode,
+                          );
+                        },
+                        error: (_, __) => const SizedBox.shrink(),
+                        loading: () => const SizedBox.shrink(),
+                      ),
+                    ],
+                  ),
           ),
           const SizedBox(height: kToolbarHeight),
         ],
@@ -447,6 +666,8 @@ class _CardButton extends StatelessWidget {
     required this.length,
     required this.currencyCode,
     required this.sum,
+    this.width = 155.0,
+    this.height = 155.0,
   });
 
   final VoidCallback onPressed;
@@ -456,6 +677,8 @@ class _CardButton extends StatelessWidget {
   final int length;
   final String currencyCode;
   final double sum;
+  final double? width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -466,8 +689,8 @@ class _CardButton extends StatelessWidget {
     final compact = NumberFormat.compact(locale: locale);
 
     return Container(
-      width: 155.0,
-      height: 155.0,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(16.0),
