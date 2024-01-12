@@ -593,16 +593,16 @@ class _HomePageState extends ConsumerState<HomePage> {
     const debtArgs = AddDebtArgs('main');
 
     switch (dial) {
-      case 'Installment':
+      case 'installment':
         nav.pushNamed('/add-installment', arguments: installmentArgs);
         break;
-      case 'Income':
+      case 'income':
         nav.pushNamed('/add-income');
         break;
-      case 'Expense':
+      case 'expense':
         nav.pushNamed('/add-expense');
         break;
-      case 'Debt':
+      case 'debt':
         nav.pushNamed('/add-debt', arguments: debtArgs);
         break;
       default:
